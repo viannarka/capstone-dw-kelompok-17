@@ -7,3 +7,6 @@ data/LISENSI.md
 __pycache__/
 .ipynb_checkpoints/
 .venv/
+
+# Paket data mentah hasil unduhan manual
+k17-air-sanitasi.zip
