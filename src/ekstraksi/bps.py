@@ -184,3 +184,7 @@ def periksa_kecocokan():
             print(f"{nama}: COCOK ({len(a)} baris)")
         except AssertionError:
             print(f"{nama}: BELUM COCOK — perlu diperiksa")
+
+def hasil_bps():
+    """Mengembalikan DataFrame mentah BPS untuk integrasi."""
+    return jalankan()
