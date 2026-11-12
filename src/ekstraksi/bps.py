@@ -1,3 +1,14 @@
+"""Tahap 1 (Ekstraksi): pembaca berkas mentah BPS, kasus 17.
+
+Prinsip: pembaca hanya mengubah berkas mentah CSV dan JSON BPS
+menjadi tabel panjang. Tidak ada baris dibuang atau nilai dibetulkan.
+Setiap baris diberi informasi asal berkas dan SHA-256 dari manifest.
+
+Seri BPS: var845, var2741, var847, var1273, var2179, var2749.
+"""
+
+from __future__ import annotations
+
 import json
 import re
 from itertools import product
@@ -5,25 +16,29 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.common.manifest import RAW, sha256_raw
+from src.common.manifest import sha256_raw
 
 
-FOLDER_BPS = RAW / "bps" / "2026-10-17"
+RAW = Path(__file__).resolve().parents[2] / "data" / "raw"
+SNAPSHOT = "bps/2026-10-17"
 
 
-def tambah_asal(df, path):
-    """Menambahkan asal berkas dan SHA-256 dari manifest."""
-    berkas = path.relative_to(RAW).as_posix()
+# util
+def lineage(df: pd.DataFrame, berkas: str) -> pd.DataFrame:
+    """Menambahkan asal berkas dan SHA-256 pada setiap baris."""
     df["_berkas_raw"] = berkas
     df["_sha256_raw"] = sha256_raw(berkas)
     return df
 
 
-def baca_csv(path):
-    """Membaca CSV tanpa membersihkan nilai aslinya."""
-    for encoding in ["utf-8-sig", "cp1252", "latin-1"]:
+# pembaca
+def baca_csv_bps(berkas: str):
+    """Membaca CSV BPS dan mengembalikan (df, baris_mentah)."""
+    path = RAW / berkas
+
+    for encoding in ("utf-8-sig", "cp1252", "latin-1"):
         try:
-            df = pd.read_csv(
+            mentah = pd.read_csv(
                 path,
                 sep=None,
                 engine="python",
@@ -35,9 +50,12 @@ def baca_csv(path):
         except UnicodeError:
             continue
     else:
-        raise ValueError(f"Encoding CSV tidak terbaca: {path}")
+        raise ValueError(f"{berkas}: pengodean CSV tidak dikenali")
 
-    # Kolom tahun yang melebar diubah menjadi tabel panjang.
+    baris_mentah = len(mentah)
+    df = mentah.copy()
+
+    # Jika tahun masih berupa kolom, ubah menjadi tabel panjang.
     kolom_tahun = [
         kolom for kolom in df.columns
         if re.fullmatch(r"(19|20)\d{2}", str(kolom).strip())
@@ -55,136 +73,198 @@ def baca_csv(path):
             value_name="nilai",
         )
 
-    return tambah_asal(df, path)
+    return lineage(df, berkas), baris_mentah
 
 
-def baca_json(path):
-    """Membaca JSON BPS dan meratakan datacontent."""
-    with open(path, encoding="utf-8-sig") as f:
-        data = json.load(f)
+def baca_json_bps(berkas: str):
+    """Membaca JSON WebAPI BPS dengan struktur bersarang.
 
-    if isinstance(data, dict):
-        data = [data]
+    Dimensi vervar, var, turvar, tahun, dan turtahun
+    digunakan untuk membaca kode pada datacontent.
+    """
+    with open(RAW / berkas, encoding="utf-8-sig") as f:
+        isi = json.load(f)
+
+    if isinstance(isi, dict):
+        isi = [isi]
+
+    if not isinstance(isi, list):
+        raise ValueError(f"{berkas}: bentuk JSON tidak dikenali")
 
     semua_baris = []
+    baris_mentah = 0
 
-    for bagian in data:
-        dimensi = [
-            "vervar", "var", "turvar",
-            "tahun", "turtahun"
-        ]
-
+    for bagian in isi:
+        dimensi = ["vervar", "var", "turvar", "tahun", "turtahun"]
         daftar_dimensi = [
             bagian.get(nama, []) for nama in dimensi
         ]
 
-        # Menyusun pasangan kode gabungan dan label.
+        if not all(daftar_dimensi):
+            raise ValueError(
+                f"{berkas}: ada dimensi BPS yang tidak tersedia"
+            )
+
+        # Membuat peta kode datacontent ke label dimensi.
         peta = {}
 
-        if all(daftar_dimensi):
-            for kombinasi in product(*daftar_dimensi):
-                kode = "".join(
-                    str(item["val"]) for item in kombinasi
-                )
-                peta[kode] = {
-                    nama + "_kode": item["val"]
-                    for nama, item in zip(dimensi, kombinasi)
-                }
-                peta[kode].update({
-                    nama + "_label": item.get("label")
-                    for nama, item in zip(dimensi, kombinasi)
-                })
+        for kombinasi in product(*daftar_dimensi):
+            kode = "".join(str(item["val"]) for item in kombinasi)
 
-        for kode, nilai in bagian.get("datacontent", {}).items():
+            peta[kode] = {}
+
+            for nama, item in zip(dimensi, kombinasi):
+                peta[kode][nama + "_kode"] = item["val"]
+                peta[kode][nama + "_label"] = item.get("label")
+
+        datacontent = bagian.get("datacontent", {})
+        baris_mentah += len(datacontent)
+
+        for kode, nilai in datacontent.items():
+            kode = str(kode)
+
+            if kode not in peta:
+                raise ValueError(
+                    f"{berkas}: kode datacontent {kode} tidak terpetakan"
+                )
+
             baris = {
-                "_kode_datacontent": str(kode),
+                "_kode_datacontent": kode,
                 "nilai": nilai,
             }
-
-            # Pertahankan kode asli jika tidak cocok.
-            baris.update(peta.get(str(kode), {}))
+            baris.update(peta[kode])
             semua_baris.append(baris)
 
     df = pd.DataFrame(semua_baris)
-    return tambah_asal(df, path)
+
+    return lineage(df, berkas), baris_mentah
 
 
-def jalankan():
-    """Membaca seluruh CSV dan JSON BPS."""
-    hasil = []
+# semua
+def baca_semua_bps():
+    """Membaca seluruh berkas BPS kasus 17.
 
-def jalankan():
-    hasil = []
+    Kembalikan (hasil, catatan):
+      hasil   : {"data": DataFrame}
+      catatan : daftar dict berisi
+                berkas, baris_mentah, baris_terbaca
+    """
+    dasar = RAW / SNAPSHOT
 
-    for path in sorted(FOLDER_BPS.rglob("*")):
-        if not path.is_file():
-            continue
+    berkas = sorted(
+        p.relative_to(RAW).as_posix()
+        for p in dasar.rglob("*")
+        if p.is_file() and p.name != "manifest_asal.json"
+    )
 
-        if path.name == "manifest_asal.json":
-            continue
+    kumpulan = []
+    catatan = []
 
-        if path.suffix.lower() == ".csv":
-            df = baca_csv(path)
-        elif path.suffix.lower() == ".json":
-            df = baca_json(path)
+    for b in berkas:
+        if b.endswith(".csv"):
+            df, mentah = baca_csv_bps(b)
+
+        elif b.endswith(".json"):
+            df, mentah = baca_json_bps(b)
+
         else:
-            continue
+            raise ValueError(f"Berkas BPS tidak dikenali: {b}")
 
-        print(f"{path.name}: {len(df)} baris")
-        hasil.append(df)
+        kumpulan.append(df)
 
-    if not hasil:
-        raise FileNotFoundError(
-            "Tidak ada berkas CSV atau JSON BPS."
-        )
+        catatan.append({
+            "berkas": b,
+            "baris_mentah": mentah,
+            "baris_terbaca": len(df),
+        })
 
-    gabungan = pd.concat(hasil, ignore_index=True)
-    print(f"Total: {len(gabungan)} baris")
-    return gabungan
+    if not kumpulan:
+        raise FileNotFoundError("Tidak ada berkas BPS yang ditemukan")
+
+    data = pd.concat(kumpulan, ignore_index=True)
+
+    assert data["_berkas_raw"].notna().all()
+    assert data["_sha256_raw"].notna().all()
+
+    hasil = {"data": data}
+
+    return hasil, catatan
 
 
-if __name__ == "__main__":
-    data = jalankan()
+def hasil_bps():
+    """Mengembalikan DataFrame BPS untuk integrasi tim."""
+    hasil, catatan = baca_semua_bps()
+    return hasil["data"]
 
-    print("\nHASIL PEMERIKSAAN")
-    print("Total baris:", len(data))
-    print("Jumlah berkas:", data["_berkas_raw"].nunique())
-    print("Kolom asal lengkap:",
-          data["_berkas_raw"].notna().all()
-          and data["_sha256_raw"].notna().all())
 
-    print("\nJUMLAH BARIS PER BERKAS:")
-    print(data.groupby("_berkas_raw").size().to_string())
-
+# pengujian
 def periksa_kecocokan():
-    from pandas.testing import assert_frame_equal
+    """Memeriksa kecocokan enam pasangan CSV dan JSON BPS."""
+    dasar = RAW / SNAPSHOT
 
-    for nama in [
-        "sdg6_6_1_1_v2741",
-        "sdg6_6_2_1_v2749",
-        "sdg6_air_layak",
-        "sdg6_cuci_tangan",
-        "sdg6_sanitasi_aman",
-        "sdg6_sanitasi_layak",
-    ]:
-        csv = baca_csv(FOLDER_BPS / f"{nama}.csv")
-        js = baca_json(FOLDER_BPS / "json" / f"{nama}.json")
+    for csv_path in sorted(dasar.glob("*.csv")):
+        json_path = dasar / "json" / (csv_path.stem + ".json")
 
-        a = csv[["wilayah_id", "tahun_id", "turvar_id", "nilai"]].copy()
-        b = js[["vervar_kode", "tahun_kode", "turvar_kode", "nilai"]].copy()
+        if not json_path.exists():
+            raise FileNotFoundError(json_path)
+
+        csv_berkas = csv_path.relative_to(RAW).as_posix()
+        json_berkas = json_path.relative_to(RAW).as_posix()
+
+        csv_df, _ = baca_csv_bps(csv_berkas)
+        json_df, _ = baca_json_bps(json_berkas)
+
+        a = csv_df[
+            ["wilayah_id", "tahun_id", "turvar_id", "nilai"]
+        ].copy()
+
+        b = json_df[
+            ["vervar_kode", "tahun_kode", "turvar_kode", "nilai"]
+        ].copy()
 
         a.columns = ["wilayah", "tahun", "rincian", "nilai"]
         b.columns = ["wilayah", "tahun", "rincian", "nilai"]
 
-        a = a.astype(str).sort_values(list(a.columns)).reset_index(drop=True)
-        b = b.astype(str).sort_values(list(b.columns)).reset_index(drop=True)
+        a = (
+            a.astype(str)
+            .sort_values(list(a.columns))
+            .reset_index(drop=True)
+        )
+        b = (
+            b.astype(str)
+            .sort_values(list(b.columns))
+            .reset_index(drop=True)
+        )
 
-        try:
-            assert_frame_equal(a, b, check_dtype=False)
-            print(f"{nama}: COCOK ({len(a)} baris)")
-        except AssertionError:
-            print(f"{nama}: BELUM COCOK — perlu diperiksa")
+        pd.testing.assert_frame_equal(a, b, check_dtype=False)
+        print(f"{csv_path.stem}: COCOK ({len(a)} baris)")
 
-def hasil_bps():
-    """Mengembalikan DataFrame mentah BPS untuk integrasi."""
-    return jalankan()
+
+if __name__ == "__main__":
+    hasil, catatan = baca_semua_bps()
+
+    print(f"{'berkas':65} {'mentah':>8} {'terbaca':>8}")
+
+    for c in catatan:
+        print(
+            f"{c['berkas']:65} "
+            f"{c['baris_mentah']:>8} "
+            f"{c['baris_terbaca']:>8}"
+        )
+
+    print()
+    print("berkas_dibaca =", len(catatan))
+    print("baris_mentah  =", sum(
+        c["baris_mentah"] for c in catatan
+    ))
+    print("baris_terbaca =", len(hasil["data"]))
+
+    d = hasil["data"]
+
+    assert d["_berkas_raw"].notna().all()
+    assert d["_sha256_raw"].notna().all()
+
+    print("\nLineage lengkap di semua baris data: OK")
+
+    print("\nPemeriksaan kecocokan CSV dan JSON:")
+    periksa_kecocokan()
