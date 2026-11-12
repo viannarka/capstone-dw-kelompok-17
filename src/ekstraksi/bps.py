@@ -140,7 +140,7 @@ def baca_json_bps(berkas: str):
     return lineage(df, berkas), baris_mentah
 
 
-# semua
+# pembacaan seluruh berkas BPS
 def baca_semua_bps():
     """Membaca seluruh berkas BPS kasus 17.
 
