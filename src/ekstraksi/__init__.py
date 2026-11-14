@@ -1,6 +1,8 @@
 """Tahap 1 — Ekstraksi (pertemuan X). Milik tim.
 
-Nilai asli tidak dibersihkan. Lineage setiap baris tetap dipertahankan.
+Baca setiap berkas di data/raw/ (CSV, JSON WebAPI BPS, XLSX BNPB, SDMX ILO, JSON WDI) menjadi
+DataFrame mentah yang setia pada sumbernya: jangan membersihkan di sini, cukup ratakan struktur
+dan catat asal tiap baris (`_berkas_raw` relatif data/raw/, `_sha256_raw` dari src.common.manifest).
 """
 import json
 
