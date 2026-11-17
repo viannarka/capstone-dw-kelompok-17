@@ -6,3 +6,12 @@ K-004,2026-11-17,124450090,silver,var1273,"Nilai di luar batas IQR dicatat sebag
 K-005,2026-11-17,124450090,silver,var2179,"Nilai di luar batas IQR dicatat sebagai calon anomali dan tidak diubah; tiga kategori detail tetap dipisahkan","menggabungkan kategori detail atau menghapus nilai di luar batas IQR","Perkotaan, Perdesaan, dan Perkotaan+Perdesaan merupakan kategori berbeda yang perlu dipertahankan",0
 K-006,2026-11-17,124450090,silver,var2741,"Nilai di luar batas IQR dicatat sebagai calon anomali dan tidak diubah","menghapus atau mengoreksi nilai di luar batas IQR","hasil IQR belum membuktikan kesalahan pencatatan",0
 K-007,2026-11-17,124450090,silver,var2749,"Nilai di luar batas IQR tidak diubah dan ketidaktersediaan Papua Pegunungan dicatat sebagai temuan cakupan","menghapus atau mengisi nilai tanpa bukti sumber","calon anomali dan wilayah yang tidak tercatat perlu diverifikasi lebih lanjut; tidak dilakukan koreksi",0
+
+K-008,2026-11-18,124450010,silver,var845,"judul asli menegaskan ini 'Air Minum Layak' (bukan aman), satuan 'Persen'. Data bolong dari 2011-2020.","menganggap var845 sebagai air aman","dari manifest_asal.json BPS",0
+K-009,2026-11-18,124450010,silver,var847,"koreksi kode SDG var847 dari 11.1.1 (katalog) menjadi 6.2.1 (Sanitasi Layak)","tetap memakai 11.1.1","judul tabel adalah Sanitasi Layak, masuk target 6.2.1",0
+K-010,2026-11-18,124450010,silver,var2741,"var2741 adalah seri Air Minum Aman (6.1.1*), satuan Persen, mulai 2020","menggabung var845 dan var2741 jadi satu seri","judul asli memiliki penanda 6.1.1*",0
+K-011,2026-11-18,124450010,silver,var2179,"var2179 adalah Sanitasi Aman (6.2.1) dengan rincian Tipe Daerah (perkotaan/perdesaan/gabungan)","membuang rincian tipe daerah","judul asli menyebut Tipe Daerah",0
+
+K-012,2026-11-18,124450010,silver,WSH_WATER_SAFELY_MANAGED,"nama asli: 'Population using safely managed drinking-water services', satuan Persen (PERCENT_POP_N)","menganggap satuan per 1000","dari file CSV WHO GHO",0
+K-013,2026-11-18,124450010,silver,WSH_HYGIENE_BASIC,"nama asli: 'Population using hand-washing facilities with soap and water', satuan Persen (PERCENT_POP_N)","menganggap satuan per 1000","dari file CSV WHO GHO",0
+K-014,2026-11-18,124450010,silver,SDGODAWS,"nama asli: 'Water and sanitation development assistance...', satuan MONEY_N (Juta Dolar AS)","menganggap satuan Persen","dari file CSV WHO GHO",0
