@@ -1,6 +1,8 @@
 {
   "metrik": {
-    "berkas_terverifikasi": 22
+    "seri_silver": 11,
+    "rincian_dienkode": 3,
+    "baris_silver": 3242
   },
   "seed": 0,
   "data_hash": "e9e740e4b0ac82b8ad7ff708aedaaa9240e523d99e681d98901d81511e9b55c6",
