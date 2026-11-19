@@ -1,6 +1,9 @@
 {
   "metrik": {
-    "berkas_dibaca": 0
+    "pasangan_rekonsiliasi": 4,
+    "periode_beririsan": 48,
+    "pasangan_konteks": 1,
+    "baris_sql": 3242
   },
   "seed": 0,
   "data_hash": "e9e740e4b0ac82b8ad7ff708aedaaa9240e523d99e681d98901d81511e9b55c6",
