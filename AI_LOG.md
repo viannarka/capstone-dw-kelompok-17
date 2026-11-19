@@ -7,3 +7,6 @@ melainkan "mengerti atau tidak" — isi kolom terakhir dengan apa yang Anda ubah
 | Tanggal | Siapa (NIM) | Alat | Untuk apa | Apa yang diubah dari keluarannya |
 |---|---|---|---|---|
 | 2026-11-03 | 12345678 | Copilot | kerangka DataLoader | ganti normalisasi, tambah seed worker |
+| 2026-11-19 | 124450021 | Codex | Menyelaraskan ekstraksi, profil dan audit metadata Sprint 1 dengan acuan dosen | Pemeriksaan otomatis membandingkan hitungan tiap berkas, sel kandidat IQR, ketersediaan pembanding serta satuan dan kode SDG. |
+| 2026-11-19 | 124450021 | Codex | Memisahkan keluaran ekstraksi menurut struktur repo kunci | Profil dan audit membaca tabel per sumber. Perbandingan dilakukan pada 22 berkas dan pada hasil laporan sebelum dan sesudah perubahan. |
+| 2026-11-19 | 124450021 | Codex | Memeriksa pekerjaan terhadap folder k17-air-sanitasi/sprint-1 | Alasan IQR dan penanda berulang dihitung per sel pada laporan profil. Audit mengambil judul WHO dari CSV observasi dan memeriksa tahun dasar SDGODAWS di katalog OData. |
