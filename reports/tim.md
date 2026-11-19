@@ -62,9 +62,9 @@ Durasi eksekusi pipeline dari data mentah hingga validasi memakan waktu $\pm$6,7
 
 | Anggota | NIM | Komponen | Tugas sampingan | Bagian laporan yang ditulis |
 |---|---|---|---|---|
-| Ayu Andriani | 124450041 | Ekstraksi dan lineage | Penjaga Data & Evaluasi | Data dan lineage, ekstraksi per berkas |
-| Azzelya Thianandry | 124450057 | Ekstraksi dan lineage | Penjaga Data & Evaluasi | Lineage SHA-256, verifikasi manifest |
+| Azzelya Thianandry | 124450041 | Ekstraksi dan lineage | Penjaga Data & Evaluasi | Ekstraksi format mentah, verifikasi manifest |
+| Ayu Andriani | 124450058 | Ekstraksi dan lineage | Penjaga Data & Evaluasi | Data dan lineage, ekstraksi per berkas |
 | Salavi Naharani | 124450090 | Profil dan pembersihan | Analis Utama | Masalah data, profiling IQR, anomali |
 | Asri Meilani | 124450010 | Transformasi dan panel | Integrator | Skema Silver, penyeragaman satuan & SDG |
 | Favian Arkaanda | 124450021 | Integrasi, penyimpanan, dan skala | Koordinator | Integrasi & rekonsiliasi, basis data DuckDB |
-| Abdul Hakim MT | 124450058 | Validasi dan dokumentasi | Reproduksi & Demo | Validasi otomatis, data dictionary, demo |
+| Abdul Hakim MT | 124450057 | Validasi dan dokumentasi | Reproduksi & Demo | Validasi otomatis, data dictionary, demo |
