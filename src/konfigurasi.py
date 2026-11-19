@@ -91,30 +91,9 @@ SERI = {
     ),
 }
 
-# Konsep per seri (garis waktu definisi)
+# Konsep per seri (garis waktu definisi; seri kanonik per tahun dipilih di Gold, Sprint 2)
 KONSEP = {"var845": "air minum layak", "var2741": "air minum aman", "var847": "sanitasi layak",
           "var2179": "sanitasi aman", "var2749": "sanitasi aman", "var1273": "cuci tangan"}
-
-# Seri kanonik per konsep per tahun (tingkat provinsi).
-# Alasan pemilihan:
-# - air minum layak: hanya var845 yang mengukur konsep "layak" (SDG-nya bukan 6.1.1 dikelola aman).
-#   Tahun 2011–2020 tidak diterbitkan BPS (bolong karena perubahan rumus); bukan missing melainkan seri
-#   memang tidak terbit.
-# - air minum aman: hanya var2741 yang mengukur konsep "dikelola secara aman" (SDG 6.1.1*) di tingkat
-#   provinsi. WHO/WDI (WSH_WATER_SAFELY_MANAGED, SH.H2O.SMDW.ZS) hanya nasional → pembanding, bukan
-#   kanonik provinsi.
-# - sanitasi layak: hanya var847 yang mengukur konsep "sanitasi layak" di tingkat provinsi.
-# - sanitasi aman: var2179 (2020–2025) dipilih karena cakupan periode lebih panjang dan punya rincian
-#   perkotaan/perdesaan. var2749 (2024–2025) nilainya sama dengan var2179 gabungan (K-011) → redundan.
-# - cuci tangan: hanya var1273 yang mengukur konsep cuci tangan di tingkat provinsi.
-#   WHO (WSH_HYGIENE_BASIC) hanya nasional → pembanding.
-SERI_KANONIK = {
-    "air minum layak": [("var845", 1993, 2010, "Susenas rumus lama"), ("var845", 2021, 2025, "Susenas rumus baru (var.def d)")],
-    "air minum aman":  [("var2741", 2020, 2025, "SDG 6.1.1*; satu-satunya seri provinsi")],
-    "sanitasi layak":  [("var847", 1993, 2025, "Susenas; konsep SDGs sejak 2019 (var.def d); 2005 tidak terbit")],
-    "sanitasi aman":   [("var2179", 2020, 2025, "SDG 6.2.1; rincian daerah; var2749 redundan (K-011)")],
-    "cuci tangan":     [("var1273", 2016, 2025, "Susenas; 2016 dari MKP (K-004)")],
-}
 
 RINCIAN_TOTAL_BPS = {"tidak ada", "perkotaan+perdesaan"}
 RINCIAN_BPS = {"var2179": ("daerah", {"Perkotaan": "URBAN", "Perdesaan": "RURAL"})}

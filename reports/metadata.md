@@ -1,8 +1,6 @@
 # Metadata seri: nama, satuan, kode SDG
 
-Dihasilkan dari berkas mentah dan `src/konfigurasi.py`.
-
-Tabel lengkap seri tersedia di `docs/seri.csv`.
+Dihasilkan `python pipeline.py` dari berkas mentah dan `src/konfigurasi.py`. Tabel lengkap ada di `docs/seri.csv`. Bila katalog dan berkas mentah berbeda, berkas mentah yang dipakai dan koreksinya dicatat di `log-keputusan.csv`.
 
 ## Nama di berkas mentah dan nama baku
 
@@ -16,9 +14,9 @@ Tabel lengkap seri tersedia di `docs/seri.csv`.
 | var2749 | 6.2.1* Persentase rumah tangga yang memiliki akses terhadap sanitasi aman menurut provinsi | Persentase rumah tangga yang memiliki akses terhadap sanitasi aman |
 | SH.H2O.SMDW.ZS | People using safely managed drinking water services (% of population) | People using safely managed drinking water services (% of population) |
 | SH.H2O.BASW.ZS | People using at least basic drinking water services (% of population) | People using at least basic drinking water services (% of population) |
-| WSH_WATER_SAFELY_MANAGED | Population using safely managed drinking-water services (%) | Population using safely managed drinking-water services (%) |
-| WSH_HYGIENE_BASIC | Population with basic handwashing facilities at home (%) | Population with basic handwashing facilities with soap and water at home (%) |
-| SDGODAWS | Amount of water- and sanitation-related official development assistance that is part of a government-coordinated spending plan (constant 2024 US$ millions) | Water- and sanitation-related ODA in government spending plans |
+| WSH_WATER_SAFELY_MANAGED | Population using safely managed drinking-water services | Population using safely managed drinking-water services (%) |
+| WSH_HYGIENE_BASIC | Population using hand-washing facilities with soap and water | Population with basic handwashing facilities with soap and water at home (%) |
+| SDGODAWS | Water and sanitation development assistance as part of official government spending plans | Water- and sanitation-related ODA in government spending plans |
 
 ## Satuan dan kode SDG
 
@@ -36,17 +34,6 @@ Tabel lengkap seri tersedia di `docs/seri.csv`.
 | WSH_HYGIENE_BASIC | — | persen | kolom PERCENT_POP_N | 6.2.1 | 6.2.1 |
 | SDGODAWS | — | juta_usd_konstan_2024 | kolom MONEY_N; odata IndicatorName '(constant 2024 US$ millions)' | 6.a.1 | 6.a.1 |
 
-## Bukti metadata BPS
-
-| seri_kode | judul | satuan | cakupan_tahun | jumlah_baris | last_update | berkas_raw |
-|---|---|---|---|---|---|---|
-| var845 | Persentase Rumah Tangga yang Memiliki Akses terhadap Sumber Air Minum Layak Menurut Provinsi | Persen | 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2021, 2022, 2023, 2024, 2025 | 722 | 2025-12-16 10:31:12 | bps/2026-10-17/manifest_asal.json |
-| var847 | Persentase Rumah Tangga menurut Provinsi dan Memiliki Akses terhadap Sanitasi Layak | Persen | 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 | 1036 | 2025-12-16 14:31:07 | bps/2026-10-17/manifest_asal.json |
-| var2179 | Persentase Rumah Tangga Menggunakan Layanan Sanitasi yang Dikelola Secara Aman Menurut Provinsi dan Tipe Daerah | Persen | 2020, 2021, 2022, 2023, 2024, 2025 | 648 | 2025-12-15 15:07:24 | bps/2026-10-17/manifest_asal.json |
-| var1273 | 6.2.1* Persentase Rumah Tangga yang Memiliki Fasilitas Cuci Tangan dengan Sabun dan Air Menurut Provinsi | Persen | 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 | 358 | 2026-07-06 15:13:09 | bps/2026-10-17/manifest_asal.json |
-| var2741 | 6.1.1* Persentase rumah tangga yang menggunakan layanan air minum yang dikelola secara aman menurut provinsi | Persen | 2020, 2021, 2022, 2023, 2024, 2025 | 218 | 2026-06-04 12:45:09 | bps/2026-10-17/manifest_asal.json |
-| var2749 | 6.2.1* Persentase rumah tangga yang memiliki akses terhadap sanitasi aman menurut provinsi | Persen | 2024, 2025 | 76 | 2026-06-17 15:37:14 | bps/2026-10-17/manifest_asal.json |
-
 ## Koreksi katalog
 
 | seri_kode | koreksi_katalog |
@@ -55,7 +42,18 @@ Tabel lengkap seri tersedia di `docs/seri.csv`.
 | SH.H2O.SMDW.ZS | kode SDG kosong -> 6.1.1 |
 | SH.H2O.BASW.ZS | kode SDG kosong -> 1.4.1 |
 
-## Metadata WDI yang muncul lebih dari satu kali
+## Catatan BPS (var.note)
+
+| var_id | catatan (tanpa tag HTML) |
+|---|---|
+| 2741 | Sumber: Badan Pusat Statistik |
+| 2749 | Sumber: Badan Pusat Statistik |
+| 845 | Sumber: Susenas Maret |
+| 1273 | Sumber: BPS - Angka 2016 merupakan angka hasil Susenas MKP 2016 - Pertanyaan mengenai fasilitas cuci tangan pertama kali ditanyakan di Susenas MKP 2016, untuk data KOR Maret 2016 belum mengakomodir pertanyaan mengenai fasilitas cuci tangan |
+| 2179 | Sumber: BPS, Susenas Maret |
+| 847 | Sumber: Susenas Maret |
+
+## Metadata WDI yang muncul di lebih dari satu berkas
 
 | seri | jumlah_entri | berkas | isi_sama |
 |---|---|---|---|
@@ -65,7 +63,3 @@ Tabel lengkap seri tersedia di `docs/seri.csv`.
 ## Judul dengan spasi di awal/akhir
 
 Tidak ada.
-
-## Catatan BPS
-
-Kolom var.note tidak tersedia pada metadata hasil ekstraksi ini.

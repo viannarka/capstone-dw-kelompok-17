@@ -1,94 +1,132 @@
-"""Ekstraksi Kasus 17. Setiap kunci hasil mewakili satu format dan peran sumber."""
-from collections import defaultdict
+"""Tahap 1 — Ekstraksi: satu pintu untuk semua pembaca.
+
+MANIFEST.csv adalah daftar pekerjaan. Setiap berkas dicocokkan dengan pola jalurnya (pola pertama
+yang cocok menang, jadi pola yang lebih khusus ditulis lebih dulu). Di akhir, tidak boleh ada berkas
+yang belum ditangani: berkas yang terlewat tidak menimbulkan galat, hanya diam-diam hilang dari Silver.
+"""
 from fnmatch import fnmatch
 
 import pandas as pd
 
-from src.common.manifest import baca, periksa, sha256_raw
+from src import konfigurasi as K
+from src.common.manifest import baca as baca_manifest
+from src.ekstraksi import bnpb, bps, ilostat, wdi, who_gho
+from src.laporan import ROOT, catat, tabel_md, tulis
 
 
-def lineage(df, berkas):
-    df["_berkas_raw"] = berkas
-    df["_sha256_raw"] = sha256_raw(berkas)
-    return df
+def _seri(sumber):
+    return [kode for kode, s in K.SERI.items() if s["sumber"] == sumber]
 
 
-def jalankan(sumber=None, *, laporan_berkas=None):
-    """Baca berkas MANIFEST, pertahankan tabel per jenis dan CSV WHO per jalur."""
-    from src.ekstraksi import bps, wdi, who_gho
+# (pola jalur, nama pembaca, peran) — urutan penting
+POLA = [
+    ("bps/*/json/*.json", "bps_json", "data"),
+    ("bps/*/manifest_asal.json", "bps_manifest_asal", "meta"),
+    ("bps/*/*.csv", "bps_csv", "data"),
+    ("wdi/*/data/*.json", "wdi_data", "data"),
+    ("wdi/*/metadata/sumber.json", "wdi_sumber", "meta"),
+    ("wdi/*/metadata/*_indikator.json", "wdi_meta", "meta"),
+    ("who_gho/*/datadot/ddiindicators*.json", "who_ddi", "meta"),
+    ("who_gho/*/datadot/*.csv", "who_csv", "data"),
+    ("who_gho/*/odata/Indicator.json", "who_odata", "meta"),
+    ("ilostat/*/data/*.csv", "ilo_csv", "data"),
+    ("ilostat/*/dsd/*.json", "ilo_dsd", "meta"),
+    ("ilostat/*/metadata/dataflow.json", "ilo_dataflow", "meta"),
+    ("bnpb/*/ckan/*.json", "bnpb_ckan", "meta"),
+    ("bnpb/*/datastore/*/*.json", "bnpb_sel", "data"),
+    ("bnpb/*/tangan/*/*.xlsx", "bnpb_sel", "data"),
+]
 
-    _, salah = periksa()
-    if salah:
-        raise ValueError(f"Berkas tidak cocok dengan manifest: {salah}")
-    manifest = baca()
-    berkas_sumber = [b for b in manifest if sumber is None or b.startswith(sumber + "/")]
-    if not berkas_sumber:
-        raise ValueError(f"Sumber tidak ditemukan: {sumber}")
 
-    kumpulan = defaultdict(list)
-    who_csv = {}
+def jalankan():
+    """Kembalikan {nama: DataFrame mentah} (WHO: {jalur: DataFrame}, karena kolomnya berbeda per berkas)."""
+    kumpul = {nama: [] for _, nama, _ in POLA}
+    bps.tak_terbaca.clear()
+    who = {}
     hitung = []
-    for berkas in berkas_sumber:
+    for berkas in baca_manifest():
+        cocok = next(((nama, peran) for pola, nama, peran in POLA if fnmatch(berkas, pola)), None)
+        if cocok is None:
+            continue
+        nama, peran = cocok
         catatan = ""
-        jumlah = None
-        if fnmatch(berkas, "bps/*/json/*.json"):
-            nama = "bps_json"
+        if nama == "bps_json" and bps.statis(berkas):
+            nama = "bps_statis_html"
+            df, meta = bps.baca_json_statis(berkas)
+            kumpul.setdefault("bps_statis_meta", []).append(meta)
+            catatan = (f"tabel statis: HTML diratakan, {meta['blok'].iloc[0]} blok x {meta['tingkat_header'].iloc[0]} tingkat header"
+                       + (f", {meta['sel_koma_desimal'].iloc[0]} sel berkoma desimal" if meta["sel_koma_desimal"].iloc[0] else ""))
+            catat(**{f"koma_desimal_{berkas.split('/')[-1].split('.')[0]}": int(meta["sel_koma_desimal"].iloc[0])})
+        elif nama == "bps_json":
             df, meta = bps.baca_json(berkas)
-            kumpulan["bps_meta"].append(meta)
-            catatan = f"{meta['_halaman'].nunique()} halaman"
-        elif fnmatch(berkas, "bps/*/manifest_asal.json"):
-            nama = "bps_manifest_asal"
+            kumpul["bps_meta"] = kumpul.get("bps_meta", []) + [meta]
+            catatan = f"{meta['_halaman'].max()} halaman"
+        elif nama == "bps_csv":
+            df = bps.baca_csv(berkas)
+            if "var_id" not in df.columns:
+                nama, catatan = "bps_statis", "tabel statis (nama wilayah, tanpa var_id)"
+        elif nama == "bps_manifest_asal":
             df = bps.baca_manifest_asal(berkas)
             catatan = "semua tabel unduhan BPS, bukan hanya kasus ini"
-        elif fnmatch(berkas, "bps/*/*.csv"):
-            nama = "bps_csv"
-            df, jumlah = bps.baca_csv(berkas, dengan_jumlah=True)
-        elif fnmatch(berkas, "wdi/*/data/*.json"):
-            nama = "wdi_data"
-            df, jumlah = wdi.baca_data(berkas)
-            catatan = f"{jumlah:,} baris di berkas, {df['indicator_id'].nunique()} seri kasus disaring"
-        elif fnmatch(berkas, "wdi/*/metadata/*_indikator.json"):
-            nama = "wdi_meta"
-            df, jumlah = wdi.baca_metadata(berkas, wdi.SERI_KASUS, dengan_jumlah=True)
+        elif nama == "wdi_data":
+            df, total = wdi.baca_data(berkas, _seri("wdi"))
+            catatan = f"{total:,} baris di berkas, {df['indicator_id'].nunique()} seri kasus disaring"
+        elif nama == "wdi_sumber":
+            df = wdi.baca_metadata(berkas)
+        elif nama == "wdi_meta":
+            df = wdi.baca_metadata(berkas, _seri("wdi"))
             catatan = "metadata seri kasus saja"
-        elif fnmatch(berkas, "wdi/*/metadata/sumber.json"):
-            nama = "wdi_sumber"
-            df, jumlah = wdi.baca_metadata(berkas, dengan_jumlah=True)
-        elif fnmatch(berkas, "who_gho/*/datadot/*.csv"):
-            nama = "who_csv"
+        elif nama == "who_csv":
             df = who_gho.baca_csv(berkas)
-            who_csv[berkas] = df
-        elif fnmatch(berkas, "who_gho/*/datadot/ddiindicators*.json"):
-            nama = "who_ddi"
-            df, jumlah = who_gho.baca_metadata_ddi(berkas, dengan_jumlah=True)
+            who[berkas] = df
+        elif nama == "who_ddi":
+            df = who_gho.baca_metadata_ddi(berkas, _seri("who_gho"))
             catatan = "definisi lengkap seri kasus"
-        elif fnmatch(berkas, "who_gho/*/odata/Indicator.json"):
-            nama = "who_odata"
-            df, jumlah = who_gho.baca_metadata_odata(berkas, dengan_jumlah=True)
-        else:
-            raise ValueError(f"Berkas manifest tanpa pembaca: {berkas}")
+        elif nama == "ilo_csv":
+            df = ilostat.baca_csv(berkas)
+            catatan = f"dimensi: {', '.join(ilostat.dimensi(df)) or '(tanpa rincian)'}; FREQ {'/'.join(sorted(df['FREQ'].unique()))}"
+        elif nama == "ilo_dsd":
+            df = ilostat.baca_dsd(berkas)
+        elif nama == "ilo_dataflow":
+            df, total = ilostat.baca_dataflow(berkas, _seri("ilostat"))
+            catatan = f"{total:,} dataflow ILOSTAT, {len(df)} seri kasus disaring"
+        elif nama == "bnpb_ckan":
+            df = bnpb.baca_ckan(berkas)
+            catatan = f"{df['dataset'].nunique()} dataset, {len(df)} resource; judul resource = nama ukuran"
+        elif nama == "bnpb_sel" and berkas.endswith(".json"):
+            df, h = bnpb.baca_datastore(berkas)
+            catatan = f"DataStore {h['record']} record; tata {h['tata']}/{h['tingkat']}; {h['kosong']} sel kosong"
+        elif nama == "bnpb_sel":
+            df, ket, h = bnpb.baca_xlsx(berkas)
+            if len(ket):
+                kumpul.setdefault("bnpb_keterangan", []).append(ket)
+            catatan = (f"XLSX {h['lembar']} lembar data; tata {h['tata']}/{h['tingkat']}; {h['kosong']} sel kosong"
+                       + (f"; lembar Keterangan {len(ket)} baris" if len(ket) else ""))
+        elif nama == "who_odata":
+            df = who_gho.baca_metadata_odata(berkas, _seri("who_gho"))
+        kumpul.setdefault(nama, []).append(df)
+        hitung.append({"berkas": berkas, "pembaca": nama, "peran": peran, "baris": len(df), "catatan": catatan})
 
-        if df.empty:
-            raise ValueError(f"Berkas tidak menghasilkan baris kasus: {berkas}")
-        if not (df["_berkas_raw"].eq(berkas) & df["_sha256_raw"].eq(manifest[berkas])).all():
-            raise ValueError(f"Lineage tidak lengkap: {berkas}")
-        if nama != "who_csv":
-            kumpulan[nama].append(df)
-        peran = "data" if nama in {"bps_json", "bps_csv", "wdi_data", "who_csv"} else "meta"
-        if jumlah is None:
-            jumlah = len(df)
-        hitung.append(dict(berkas=berkas, pembaca=nama, peran=peran, baris=len(df),
-                           catatan=catatan, baris_mentah=jumlah))
-    hasil = {nama: pd.concat(tabel, ignore_index=True) for nama, tabel in kumpulan.items()}
-    if who_csv:
-        hasil["who_csv"] = who_csv
-    hitungan = pd.DataFrame(hitung)
-    if laporan_berkas is not None:
-        catatan_tim = hitungan.rename(columns={"baris": "baris_terbaca"})
-        catatan_tim.sort_values("berkas").to_csv(
-            laporan_berkas, index=False, columns=["berkas", "baris_mentah", "baris_terbaca"])
-    ringkasan = hitungan.drop(columns="baris_mentah")
-    hasil["_hitung"] = ringkasan
-    observasi = ringkasan.loc[ringkasan["peran"].eq("data"), "baris"].sum()
-    print(f"Ekstraksi: {len(ringkasan)}/{len(berkas_sumber)} berkas, {observasi} baris data; manifest dan lineage sesuai.")
+    if bps.tak_terbaca:
+        pd.DataFrame(bps.tak_terbaca).to_csv(ROOT / "reports" / "kunci-bps-tak-terbaca.csv", index=False)
+    catat(kunci_bps_tak_terbaca=len(bps.tak_terbaca))
+    semua = set(baca_manifest())
+    tertangani = {h["berkas"] for h in hitung}
+    sisa = sorted(semua - tertangani)
+    assert not sisa, f"berkas di MANIFEST.csv belum punya pembaca: {sisa}"
+
+    hasil = {nama: pd.concat(daftar, ignore_index=True) for nama, daftar in kumpul.items() if daftar}
+    hasil["who_csv"] = who
+    hasil["_hitung"] = pd.DataFrame(hitung)
+
+    t = hasil["_hitung"]
+    data = t[t["peran"] == "data"]
+    catat(berkas_manifest=len(semua), berkas_dibaca=len(t), berkas_data=len(data), baris_mentah=int(data["baris"].sum()))
+    tulis("ekstraksi.md", "\n\n".join([
+        "# Ekstraksi: jumlah baris per berkas",
+        "Dihasilkan `python pipeline.py`. Peran *data* berisi angka; *meta* berisi judul, definisi, atau catatan "
+        "unduhan. Semua baris `data/raw/MANIFEST.csv` tertangani.",
+        tabel_md(t),
+        f"Jumlah: {len(t)} berkas dari {len(semua)} di MANIFEST, {int(data['baris'].sum()):,} baris mentah di berkas data.",
+    ]))
     return hasil

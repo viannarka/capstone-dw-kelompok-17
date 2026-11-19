@@ -204,9 +204,9 @@ Tahun sesudah periode terakhir di luar jangkauan panel; panel tidak menggambarka
 
 Daftar semua sel kosong beserta buktinya: `reports/grid-sel-kosong.csv`.
 
-## Garis waktu konsep dan pergantian definisi
+## Garis waktu konsep
 
-Seri mana berlaku pada periode berapa dan di mana definisinya berganti.
+Seri mana berlaku pada periode berapa. Seri kanonik per konsep per tahun dipilih di Gold (Sprint 2); Silver menyimpan semua seri apa adanya.
 
 | konsep | seri_kode | periode_pertama | periode_terakhir | jumlah_periode | tahun_tidak_terbit | definisi_berganti |
 |---|---|---|---|---|---|---|
@@ -216,16 +216,3 @@ Seri mana berlaku pada periode berapa dan di mana definisinya berganti.
 | sanitasi aman | var2179 | 2020 | 2025 | 6 | — | — |
 | sanitasi aman | var2749 | 2024 | 2025 | 2 | — | — |
 | sanitasi layak | var847 | 1993 | 2025 | 32 | 2005 | mulai 2019 |
-
-## Seri kanonik per tahun per konsep
-
-Penetapan seri acuan utama (kanonik) untuk tingkat provinsi beserta alasannya:
-
-| konsep | seri_kanonik | rentang_tahun | alasan_dan_justifikasi |
-|---|---|---|---|
-| air minum layak | var845 | 1993–2010 | Susenas rumus lama |
-| air minum layak | var845 | 2021–2025 | Susenas rumus baru (var.def d) |
-| air minum aman | var2741 | 2020–2025 | SDG 6.1.1*; satu-satunya seri provinsi |
-| sanitasi layak | var847 | 1993–2025 | Susenas; konsep SDGs sejak 2019 (var.def d); 2005 tidak terbit |
-| sanitasi aman | var2179 | 2020–2025 | SDG 6.2.1; rincian daerah; var2749 redundan (K-011) |
-| cuci tangan | var1273 | 2016–2025 | Susenas; 2016 dari MKP (K-004) |

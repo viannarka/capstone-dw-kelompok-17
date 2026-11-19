@@ -1,70 +1,47 @@
-"""Pembaca pengamatan, metadata indikator, dan katalog sumber World Bank WDI."""
+"""Pembaca WDI (World Bank API v2): berkas data berisi banyak indikator, dan metadata indikator.
+
+Respons WDI adalah daftar dua unsur: [keterangan halaman, daftar baris]. Seri kasus disaring dengan
+pencocokan kode persis (bukan awalan), karena di berkas yang sama ada kode yang bertetangga,
+misalnya rincian per jenis kelamin. Nilai null dibawa apa adanya; dibuang saat menyusun Silver.
+"""
 import json
 
 import pandas as pd
 
-from src.common.manifest import RAW
-from src.ekstraksi import lineage
+from src.common.manifest import RAW, sha256_raw
 
 
-SERI_KASUS = {"SH.H2O.SMDW.ZS", "SH.H2O.BASW.ZS"}
+def _halaman(jalur):
+    isi = json.loads((RAW / jalur).read_text(encoding="utf-8"))
+    if not (isinstance(isi, list) and len(isi) == 2 and isinstance(isi[0], dict)):
+        raise ValueError(f"{jalur}: bukan respons WDI [keterangan, baris]")
+    ket = isi[0]
+    if int(ket.get("pages", 1)) != 1:
+        raise ValueError(f"{jalur}: respons {ket['pages']} halaman; paket ini mengharapkan satu halaman per berkas")
+    return ket, isi[1] or []
 
 
-def _muat(berkas):
-    with (RAW / berkas).open(encoding="utf-8-sig") as f:
-        isi = json.load(f)
-    if isinstance(isi, list) and len(isi) == 2 and isinstance(isi[0], dict) and "page" in isi[0]:
-        ket, baris = isi
-        if int(ket.get("pages", 1)) != 1:
-            raise ValueError(f"{berkas}: snapshot WDI mencakup lebih dari satu halaman")
-        if baris is None or isinstance(baris, list):
-            return ket, baris or []
-    elif isinstance(isi, list):
-        return {}, isi
-    raise ValueError(f"{berkas}: bentuk JSON WDI tidak dikenali")
-
-
-def baca_data(berkas, seri=SERI_KASUS):
-    ket, rekaman = _muat(berkas)
-    data = []
-    for r in rekaman:
-        kode = r["indicator"]["id"]
-        if seri is None or kode in seri:
-            data.append({
-                "indicator_id": kode, "indicator_nama": r["indicator"]["value"],
-                "country_id": r["country"]["id"], "countryiso3code": r.get("countryiso3code"),
-                "date": r["date"], "value": r["value"], "unit": r.get("unit"),
-                "obs_status": r.get("obs_status"), "decimal": r.get("decimal"),
-            })
-    if not data:
-        raise ValueError(f"{berkas}: tidak ada pengamatan untuk seri kasus")
-    df = pd.DataFrame(data)
+def baca_data(jalur, seri):
+    """Baris data untuk kode di `seri`. Mengembalikan (DataFrame, jumlah baris di berkas sebelum disaring)."""
+    ket, baris = _halaman(jalur)
+    pilih = [b for b in baris if b["indicator"]["id"] in set(seri)]
+    df = pd.DataFrame([{"indicator_id": b["indicator"]["id"], "indicator_nama": b["indicator"]["value"],
+                        "country_id": b["country"]["id"], "countryiso3code": b.get("countryiso3code"),
+                        "date": b["date"], "value": b["value"], "unit": b.get("unit"),
+                        "obs_status": b.get("obs_status"), "decimal": b.get("decimal")} for b in pilih])
     df["_lastupdated"] = ket.get("lastupdated")
-    return lineage(df, berkas), len(rekaman)
+    df["_berkas_raw"] = jalur
+    df["_sha256_raw"] = sha256_raw(jalur)
+    return df, len(baris)
 
 
-def baca_metadata(berkas, seri=None, *, dengan_jumlah=False):
-    _, rekaman = _muat(berkas)
-    data = []
-    for r in rekaman:
-        if seri is not None and r.get("id") not in seri:
-            continue
-        baris = {}
-        for k, v in r.items():
-            if isinstance(v, dict):
-                v = v.get("value")
-            elif isinstance(v, list):
-                v = json.dumps(v, ensure_ascii=False)
-            baris[k] = v
-        data.append(baris)
-    df = lineage(pd.DataFrame(data), berkas)
-    return (df, len(rekaman)) if dengan_jumlah else df
-
-
-if __name__ == "__main__":
-    from src.ekstraksi import jalankan
-
-    hasil = jalankan("wdi")
-    print(hasil["_hitung"].to_string(index=False))
-    print(hasil["wdi_data"].groupby("indicator_id").agg(
-        baris=("value", "size"), terisi=("value", "count"), awal=("date", "min"), akhir=("date", "max")))
+def baca_metadata(jalur, seri=None):
+    """Metadata indikator (metadata/sumberN_indikator.json) atau daftar sumber (metadata/sumber.json)."""
+    _, baris = _halaman(jalur)
+    if seri is not None:
+        baris = [b for b in baris if b.get("id") in set(seri)]
+    df = pd.DataFrame([{k: (v.get("value") if isinstance(v, dict) else
+                            (json.dumps(v, ensure_ascii=False) if isinstance(v, list) else v))
+                        for k, v in b.items()} for b in baris])
+    df["_berkas_raw"] = jalur
+    return df

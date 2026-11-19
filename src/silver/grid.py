@@ -62,8 +62,7 @@ def bentuk_grid(silver, mentah):
 
 
 def garis_waktu(silver):
-    """Bila konfigurasi punya KONSEP: per konsep, seri mana berlaku pada periode berapa dan di mana definisinya berganti,
-    serta seri kanonik per tahun beserta alasannya."""
+    """Bila konfigurasi punya KONSEP: per konsep, seri mana berlaku pada periode berapa dan di mana definisinya berganti."""
     konsep = getattr(K, "KONSEP", {})
     if not konsep:
         return ""
@@ -79,32 +78,9 @@ def garis_waktu(silver):
                       "jumlah_periode": len(per), "tahun_tidak_terbit": ", ".join(map(str, celah)) or "—",
                       "definisi_berganti": "; ".join(f"mulai {p}" for p in definisi.get(seri, {})) or "—"})
     t = pd.DataFrame(baris).sort_values(["konsep", "periode_pertama"])
-
-    bagian = [
-        "## Garis waktu konsep dan pergantian definisi",
-        "Seri mana berlaku pada periode berapa dan di mana definisinya berganti.",
-        tabel_md(t),
-    ]
-
-    kanonik = getattr(K, "SERI_KANONIK", {})
-    if kanonik:
-        baris_k = []
-        for knsp, daftar in kanonik.items():
-            for s_kode, th_mulai, th_selesai, alasan in daftar:
-                baris_k.append({
-                    "konsep": knsp,
-                    "seri_kanonik": s_kode,
-                    "rentang_tahun": f"{th_mulai}–{th_selesai}",
-                    "alasan_dan_justifikasi": alasan,
-                })
-        t_k = pd.DataFrame(baris_k)
-        bagian.extend([
-            "## Seri kanonik per tahun per konsep",
-            "Penetapan seri acuan utama (kanonik) untuk tingkat provinsi beserta alasannya:",
-            tabel_md(t_k),
-        ])
-
-    return "\n\n".join(bagian)
+    return "\n\n".join(["## Garis waktu konsep",
+                         "Seri mana berlaku pada periode berapa. Seri kanonik per konsep per tahun dipilih di Gold (Sprint 2); "
+                         "Silver menyimpan semua seri apa adanya.", tabel_md(t)])
 
 
 def jalankan(silver, mentah):

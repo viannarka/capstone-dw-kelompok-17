@@ -1,185 +1,185 @@
-seri_kode,periode,rincian,seri_utama,tahun_beririsan,kandidat_konseptual,alasan,satuan
-SDGODAWS,2010,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2011,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2012,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2013,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2014,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2015,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2016,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2017,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2018,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2019,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2020,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2021,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2022,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SDGODAWS,2023,total,,False,False,"Bantuan pembangunan dalam juta USD konstan 2024, sebagai konteks.",juta_usd_konstan_2024
-SH.H2O.BASW.ZS,2000,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2001,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2002,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2003,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2004,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2005,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2006,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2007,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2008,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2009,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2010,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2011,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2012,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2013,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2014,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2015,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2016,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2017,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2018,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2019,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2020,total,var845,False,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2021,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2022,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2023,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.BASW.ZS,2024,total,var845,True,True,Layanan basic WDI mensyaratkan waktu pengambilan air; definisi layak BPS berubah.,persen
-SH.H2O.SMDW.ZS,2000,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2001,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2002,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2003,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2004,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2005,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2006,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2007,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2008,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2009,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2010,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2011,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2012,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2013,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2014,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2015,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2016,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2017,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2018,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2019,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2020,total,var2741,True,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2021,total,var2741,True,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2022,total,var2741,True,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2023,total,var2741,True,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-SH.H2O.SMDW.ZS,2024,total,var2741,True,True,"Layanan air aman, rumah tangga BPS dan penduduk WDI.",persen
-WSH_HYGIENE_BASIC,2006,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2006,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2006,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2007,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2007,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2007,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2008,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2008,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2008,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2009,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2009,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2009,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2010,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2010,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2010,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2011,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2011,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2011,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2012,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2012,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2012,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2013,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2013,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2013,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2014,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2014,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2014,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2015,daerah=RURAL,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2015,daerah=URBAN,var1273,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2015,total,var1273,False,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2016,daerah=RURAL,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2016,daerah=URBAN,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2016,total,var1273,True,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2017,daerah=RURAL,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2017,daerah=URBAN,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2017,total,var1273,True,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2018,daerah=RURAL,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2018,daerah=URBAN,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2018,total,var1273,True,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2019,daerah=RURAL,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2019,daerah=URBAN,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2019,total,var1273,True,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2020,daerah=RURAL,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2020,daerah=URBAN,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2020,total,var1273,True,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2021,daerah=RURAL,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2021,daerah=URBAN,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2021,total,var1273,True,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_HYGIENE_BASIC,2022,daerah=RURAL,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2022,daerah=URBAN,var1273,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_HYGIENE_BASIC,2022,total,var1273,True,True,"Fasilitas cuci tangan, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2000,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2000,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2000,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2001,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2001,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2001,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2002,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2002,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2002,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2003,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2003,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2003,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2004,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2004,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2004,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2005,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2005,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2005,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2006,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2006,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2006,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2007,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2007,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2007,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2008,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2008,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2008,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2009,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2009,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2009,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2010,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2010,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2010,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2011,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2011,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2011,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2012,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2012,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2012,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2013,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2013,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2013,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2014,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2014,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2014,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2015,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2015,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2015,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2016,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2016,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2016,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2017,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2017,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2017,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2018,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2018,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2018,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2019,daerah=RURAL,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2019,daerah=URBAN,var2741,False,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2019,total,var2741,False,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2020,daerah=RURAL,var2741,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2020,daerah=URBAN,var2741,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2020,total,var2741,True,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2021,daerah=RURAL,var2741,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2021,daerah=URBAN,var2741,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2021,total,var2741,True,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
-WSH_WATER_SAFELY_MANAGED,2022,daerah=RURAL,var2741,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2022,daerah=URBAN,var2741,True,False,Rincian kota/desa WHO; seri utama BPS memakai total.,persen
-WSH_WATER_SAFELY_MANAGED,2022,total,var2741,True,True,"Layanan air aman, rumah tangga BPS dan penduduk WHO.",persen
+seri_kode,rincian,periode
+SH.H2O.BASW.ZS,total,2000
+SH.H2O.BASW.ZS,total,2001
+SH.H2O.BASW.ZS,total,2002
+SH.H2O.BASW.ZS,total,2003
+SH.H2O.BASW.ZS,total,2004
+SH.H2O.BASW.ZS,total,2005
+SH.H2O.BASW.ZS,total,2006
+SH.H2O.BASW.ZS,total,2007
+SH.H2O.BASW.ZS,total,2008
+SH.H2O.BASW.ZS,total,2009
+SH.H2O.BASW.ZS,total,2010
+SH.H2O.BASW.ZS,total,2011
+SH.H2O.BASW.ZS,total,2012
+SH.H2O.BASW.ZS,total,2013
+SH.H2O.BASW.ZS,total,2014
+SH.H2O.BASW.ZS,total,2015
+SH.H2O.BASW.ZS,total,2016
+SH.H2O.BASW.ZS,total,2017
+SH.H2O.BASW.ZS,total,2018
+SH.H2O.BASW.ZS,total,2019
+SH.H2O.BASW.ZS,total,2020
+SH.H2O.BASW.ZS,total,2021
+SH.H2O.BASW.ZS,total,2022
+SH.H2O.BASW.ZS,total,2023
+SH.H2O.BASW.ZS,total,2024
+SH.H2O.SMDW.ZS,total,2000
+SH.H2O.SMDW.ZS,total,2001
+SH.H2O.SMDW.ZS,total,2002
+SH.H2O.SMDW.ZS,total,2003
+SH.H2O.SMDW.ZS,total,2004
+SH.H2O.SMDW.ZS,total,2005
+SH.H2O.SMDW.ZS,total,2006
+SH.H2O.SMDW.ZS,total,2007
+SH.H2O.SMDW.ZS,total,2008
+SH.H2O.SMDW.ZS,total,2009
+SH.H2O.SMDW.ZS,total,2010
+SH.H2O.SMDW.ZS,total,2011
+SH.H2O.SMDW.ZS,total,2012
+SH.H2O.SMDW.ZS,total,2013
+SH.H2O.SMDW.ZS,total,2014
+SH.H2O.SMDW.ZS,total,2015
+SH.H2O.SMDW.ZS,total,2016
+SH.H2O.SMDW.ZS,total,2017
+SH.H2O.SMDW.ZS,total,2018
+SH.H2O.SMDW.ZS,total,2019
+SH.H2O.SMDW.ZS,total,2020
+SH.H2O.SMDW.ZS,total,2021
+SH.H2O.SMDW.ZS,total,2022
+SH.H2O.SMDW.ZS,total,2023
+SH.H2O.SMDW.ZS,total,2024
+SDGODAWS,total,2010
+SDGODAWS,total,2011
+SDGODAWS,total,2012
+SDGODAWS,total,2013
+SDGODAWS,total,2014
+SDGODAWS,total,2015
+SDGODAWS,total,2016
+SDGODAWS,total,2017
+SDGODAWS,total,2018
+SDGODAWS,total,2019
+SDGODAWS,total,2020
+SDGODAWS,total,2021
+SDGODAWS,total,2022
+SDGODAWS,total,2023
+WSH_HYGIENE_BASIC,daerah=RURAL,2006
+WSH_HYGIENE_BASIC,daerah=URBAN,2006
+WSH_HYGIENE_BASIC,total,2006
+WSH_HYGIENE_BASIC,daerah=RURAL,2007
+WSH_HYGIENE_BASIC,daerah=URBAN,2007
+WSH_HYGIENE_BASIC,total,2007
+WSH_HYGIENE_BASIC,daerah=RURAL,2008
+WSH_HYGIENE_BASIC,daerah=URBAN,2008
+WSH_HYGIENE_BASIC,total,2008
+WSH_HYGIENE_BASIC,daerah=RURAL,2009
+WSH_HYGIENE_BASIC,daerah=URBAN,2009
+WSH_HYGIENE_BASIC,total,2009
+WSH_HYGIENE_BASIC,daerah=RURAL,2010
+WSH_HYGIENE_BASIC,daerah=URBAN,2010
+WSH_HYGIENE_BASIC,total,2010
+WSH_HYGIENE_BASIC,daerah=RURAL,2011
+WSH_HYGIENE_BASIC,daerah=URBAN,2011
+WSH_HYGIENE_BASIC,total,2011
+WSH_HYGIENE_BASIC,daerah=RURAL,2012
+WSH_HYGIENE_BASIC,daerah=URBAN,2012
+WSH_HYGIENE_BASIC,total,2012
+WSH_HYGIENE_BASIC,daerah=RURAL,2013
+WSH_HYGIENE_BASIC,daerah=URBAN,2013
+WSH_HYGIENE_BASIC,total,2013
+WSH_HYGIENE_BASIC,daerah=RURAL,2014
+WSH_HYGIENE_BASIC,daerah=URBAN,2014
+WSH_HYGIENE_BASIC,total,2014
+WSH_HYGIENE_BASIC,daerah=RURAL,2015
+WSH_HYGIENE_BASIC,daerah=URBAN,2015
+WSH_HYGIENE_BASIC,total,2015
+WSH_HYGIENE_BASIC,daerah=RURAL,2016
+WSH_HYGIENE_BASIC,daerah=URBAN,2016
+WSH_HYGIENE_BASIC,total,2016
+WSH_HYGIENE_BASIC,daerah=RURAL,2017
+WSH_HYGIENE_BASIC,daerah=URBAN,2017
+WSH_HYGIENE_BASIC,total,2017
+WSH_HYGIENE_BASIC,daerah=RURAL,2018
+WSH_HYGIENE_BASIC,daerah=URBAN,2018
+WSH_HYGIENE_BASIC,total,2018
+WSH_HYGIENE_BASIC,daerah=RURAL,2019
+WSH_HYGIENE_BASIC,daerah=URBAN,2019
+WSH_HYGIENE_BASIC,total,2019
+WSH_HYGIENE_BASIC,daerah=RURAL,2020
+WSH_HYGIENE_BASIC,daerah=URBAN,2020
+WSH_HYGIENE_BASIC,total,2020
+WSH_HYGIENE_BASIC,daerah=RURAL,2021
+WSH_HYGIENE_BASIC,daerah=URBAN,2021
+WSH_HYGIENE_BASIC,total,2021
+WSH_HYGIENE_BASIC,daerah=RURAL,2022
+WSH_HYGIENE_BASIC,daerah=URBAN,2022
+WSH_HYGIENE_BASIC,total,2022
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2000
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2000
+WSH_WATER_SAFELY_MANAGED,total,2000
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2001
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2001
+WSH_WATER_SAFELY_MANAGED,total,2001
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2002
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2002
+WSH_WATER_SAFELY_MANAGED,total,2002
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2003
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2003
+WSH_WATER_SAFELY_MANAGED,total,2003
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2004
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2004
+WSH_WATER_SAFELY_MANAGED,total,2004
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2005
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2005
+WSH_WATER_SAFELY_MANAGED,total,2005
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2006
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2006
+WSH_WATER_SAFELY_MANAGED,total,2006
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2007
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2007
+WSH_WATER_SAFELY_MANAGED,total,2007
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2008
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2008
+WSH_WATER_SAFELY_MANAGED,total,2008
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2009
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2009
+WSH_WATER_SAFELY_MANAGED,total,2009
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2010
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2010
+WSH_WATER_SAFELY_MANAGED,total,2010
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2011
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2011
+WSH_WATER_SAFELY_MANAGED,total,2011
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2012
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2012
+WSH_WATER_SAFELY_MANAGED,total,2012
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2013
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2013
+WSH_WATER_SAFELY_MANAGED,total,2013
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2014
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2014
+WSH_WATER_SAFELY_MANAGED,total,2014
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2015
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2015
+WSH_WATER_SAFELY_MANAGED,total,2015
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2016
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2016
+WSH_WATER_SAFELY_MANAGED,total,2016
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2017
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2017
+WSH_WATER_SAFELY_MANAGED,total,2017
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2018
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2018
+WSH_WATER_SAFELY_MANAGED,total,2018
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2019
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2019
+WSH_WATER_SAFELY_MANAGED,total,2019
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2020
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2020
+WSH_WATER_SAFELY_MANAGED,total,2020
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2021
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2021
+WSH_WATER_SAFELY_MANAGED,total,2021
+WSH_WATER_SAFELY_MANAGED,daerah=RURAL,2022
+WSH_WATER_SAFELY_MANAGED,daerah=URBAN,2022
+WSH_WATER_SAFELY_MANAGED,total,2022
