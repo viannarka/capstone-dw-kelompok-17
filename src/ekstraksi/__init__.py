@@ -1,123 +1,94 @@
-"""Tahap 1 — Ekstraksi (pertemuan X). Milik tim.
-
-Baca setiap berkas di data/raw/ (CSV, JSON WebAPI BPS, XLSX BNPB, SDMX ILO, JSON WDI) menjadi
-DataFrame mentah yang setia pada sumbernya: jangan membersihkan di sini, cukup ratakan struktur
-dan catat asal tiap baris (`_berkas_raw` relatif data/raw/, `_sha256_raw` dari src.common.manifest).
-"""
-import json
+"""Ekstraksi Kasus 17. Setiap kunci hasil mewakili satu format dan peran sumber."""
+from collections import defaultdict
+from fnmatch import fnmatch
 
 import pandas as pd
 
-from src.common.manifest import RAW, baca, periksa, sha256_raw
-from src.ekstraksi.bps import baca_semua_bps
-from src.ekstraksi.who import baca_semua_who
-from src.ekstraksi.wdi import baca_semua_wdi
+from src.common.manifest import baca, periksa, sha256_raw
 
 
-# membaca metadata BPS
-def baca_metadata_bps():
-    berkas = "bps/2026-10-17/manifest_asal.json"
-
-    with open(RAW / berkas, encoding="utf-8-sig") as f:
-        isi = json.load(f)
-
-    if not isinstance(isi, dict) or not isinstance(isi.get("tabel"), dict):
-        raise ValueError("Format metadata BPS tidak dikenali")
-
-    baris = []
-
-    for nama, rincian in isi["tabel"].items():
-        baris.append({
-            "nama_tabel": nama,
-            "detail_tabel": json.dumps(rincian, ensure_ascii=False),
-            "sumber": isi.get("sumber"),
-            "domain": isi.get("domain"),
-            "diunduh": isi.get("diunduh"),
-            "skrip": isi.get("skrip"),
-        })
-
-    if not baris:
-        raise ValueError("Metadata BPS kosong")
-
-    df = pd.DataFrame(baris)
+def lineage(df, berkas):
     df["_berkas_raw"] = berkas
     df["_sha256_raw"] = sha256_raw(berkas)
-
     return df
 
 
-# menggabungkan semua pembaca
-def jalankan():
-    """Kembalikan {nama_sumber: DataFrame mentah}."""
+def jalankan(sumber=None, *, laporan_berkas=None):
+    """Baca berkas MANIFEST, pertahankan tabel per jenis dan CSV WHO per jalur."""
+    from src.ekstraksi import bps, wdi, who_gho
 
-    jumlah, salah = periksa()
-
+    _, salah = periksa()
     if salah:
-        raise ValueError(
-            f"Ada {len(salah)} berkas yang tidak cocok dengan manifest"
-        )
-
-    hasil_bps, catatan_bps = baca_semua_bps()
-    hasil_who, catatan_who = baca_semua_who()
-    hasil_wdi, catatan_wdi = baca_semua_wdi()
-
-    kumpulan = []
-
-    for sumber, hasil in (
-        ("bps", hasil_bps),
-        ("who", hasil_who),
-        ("wdi", hasil_wdi),
-    ):
-        for jenis, df in hasil.items():
-
-            if not isinstance(df, pd.DataFrame):
-                raise TypeError(f"{sumber}/{jenis}: bukan DataFrame")
-
-            if not {"_berkas_raw", "_sha256_raw"}.issubset(df.columns):
-                raise ValueError(f"{sumber}/{jenis}: lineage belum lengkap")
-
-            bagian = df.copy()
-            bagian["_sumber_data"] = sumber
-            bagian["_jenis_data"] = jenis
-
-            kumpulan.append(bagian)
-
-    metadata_bps = baca_metadata_bps()
-    metadata_bps["_sumber_data"] = "bps"
-    metadata_bps["_jenis_data"] = "metadata"
-
-    kumpulan.append(metadata_bps)
-
-    mentah = pd.concat(kumpulan, ignore_index=True, sort=False)
-
-    # mencocokkan file dengan manifest
+        raise ValueError(f"Berkas tidak cocok dengan manifest: {salah}")
     manifest = baca()
-    terbaca = set(mentah["_berkas_raw"].dropna().unique())
-    terdaftar = set(manifest)
+    berkas_sumber = [b for b in manifest if sumber is None or b.startswith(sumber + "/")]
+    if not berkas_sumber:
+        raise ValueError(f"Sumber tidak ditemukan: {sumber}")
 
-    if terbaca != terdaftar:
-        raise ValueError(
-            f"Berkas terlewat: {sorted(terdaftar - terbaca)}; "
-            f"berkas tidak dikenal: {sorted(terbaca - terdaftar)}"
-        )
+    kumpulan = defaultdict(list)
+    who_csv = {}
+    hitung = []
+    for berkas in berkas_sumber:
+        catatan = ""
+        jumlah = None
+        if fnmatch(berkas, "bps/*/json/*.json"):
+            nama = "bps_json"
+            df, meta = bps.baca_json(berkas)
+            kumpulan["bps_meta"].append(meta)
+            catatan = f"{meta['_halaman'].nunique()} halaman"
+        elif fnmatch(berkas, "bps/*/manifest_asal.json"):
+            nama = "bps_manifest_asal"
+            df = bps.baca_manifest_asal(berkas)
+            catatan = "semua tabel unduhan BPS, bukan hanya kasus ini"
+        elif fnmatch(berkas, "bps/*/*.csv"):
+            nama = "bps_csv"
+            df, jumlah = bps.baca_csv(berkas, dengan_jumlah=True)
+        elif fnmatch(berkas, "wdi/*/data/*.json"):
+            nama = "wdi_data"
+            df, jumlah = wdi.baca_data(berkas)
+            catatan = f"{jumlah:,} baris di berkas, {df['indicator_id'].nunique()} seri kasus disaring"
+        elif fnmatch(berkas, "wdi/*/metadata/*_indikator.json"):
+            nama = "wdi_meta"
+            df, jumlah = wdi.baca_metadata(berkas, wdi.SERI_KASUS, dengan_jumlah=True)
+            catatan = "metadata seri kasus saja"
+        elif fnmatch(berkas, "wdi/*/metadata/sumber.json"):
+            nama = "wdi_sumber"
+            df, jumlah = wdi.baca_metadata(berkas, dengan_jumlah=True)
+        elif fnmatch(berkas, "who_gho/*/datadot/*.csv"):
+            nama = "who_csv"
+            df = who_gho.baca_csv(berkas)
+            who_csv[berkas] = df
+        elif fnmatch(berkas, "who_gho/*/datadot/ddiindicators*.json"):
+            nama = "who_ddi"
+            df, jumlah = who_gho.baca_metadata_ddi(berkas, dengan_jumlah=True)
+            catatan = "definisi lengkap seri kasus"
+        elif fnmatch(berkas, "who_gho/*/odata/Indicator.json"):
+            nama = "who_odata"
+            df, jumlah = who_gho.baca_metadata_odata(berkas, dengan_jumlah=True)
+        else:
+            raise ValueError(f"Berkas manifest tanpa pembaca: {berkas}")
 
-    # memeriksa kelengkapan lineage
-    if mentah["_berkas_raw"].isna().any():
-        raise ValueError("Ada baris tanpa asal berkas")
-
-    if mentah["_sha256_raw"].isna().any():
-        raise ValueError("Ada baris tanpa SHA-256")
-
-    if not (
-        mentah["_sha256_raw"]
-        == mentah["_berkas_raw"].map(manifest)
-    ).all():
-        raise ValueError("SHA-256 tidak sesuai manifest")
-
-    print(
-        f"Ekstraksi: {len(terbaca)}/{jumlah} berkas, "
-        f"{len(mentah)} baris terbaca"
-    )
-    print("Semua berkas sesuai manifest dan lineage lengkap")
-
-    return {"mentah": mentah}
+        if df.empty:
+            raise ValueError(f"Berkas tidak menghasilkan baris kasus: {berkas}")
+        if not (df["_berkas_raw"].eq(berkas) & df["_sha256_raw"].eq(manifest[berkas])).all():
+            raise ValueError(f"Lineage tidak lengkap: {berkas}")
+        if nama != "who_csv":
+            kumpulan[nama].append(df)
+        peran = "data" if nama in {"bps_json", "bps_csv", "wdi_data", "who_csv"} else "meta"
+        if jumlah is None:
+            jumlah = len(df)
+        hitung.append(dict(berkas=berkas, pembaca=nama, peran=peran, baris=len(df),
+                           catatan=catatan, baris_mentah=jumlah))
+    hasil = {nama: pd.concat(tabel, ignore_index=True) for nama, tabel in kumpulan.items()}
+    if who_csv:
+        hasil["who_csv"] = who_csv
+    hitungan = pd.DataFrame(hitung)
+    if laporan_berkas is not None:
+        catatan_tim = hitungan.rename(columns={"baris": "baris_terbaca"})
+        catatan_tim.sort_values("berkas").to_csv(
+            laporan_berkas, index=False, columns=["berkas", "baris_mentah", "baris_terbaca"])
+    ringkasan = hitungan.drop(columns="baris_mentah")
+    hasil["_hitung"] = ringkasan
+    observasi = ringkasan.loc[ringkasan["peran"].eq("data"), "baris"].sum()
+    print(f"Ekstraksi: {len(ringkasan)}/{len(berkas_sumber)} berkas, {observasi} baris data; manifest dan lineage sesuai.")
+    return hasil

@@ -6,6 +6,7 @@
 Urutan tahap tidak diubah; isi tiap tahap di src/<tahap>/. Tahap 7 (skala, arsip WDI) ditulis
 sebagai skrip terpisah di src/skala/ karena memakai unduhan tambahan.
 """
+import argparse
 import sys
 import time
 
@@ -13,11 +14,16 @@ from src import ekstraksi, gold, silver, validasi
 from src.common.manifest import periksa
 
 
-def main():
+def main(sampai_audit=False):
     n, salah = periksa()
     if salah:
         sys.exit(f"data/raw tidak cocok dengan MANIFEST.csv ({len(salah)} berkas). Jalankan ulang unduh_data.py.")
     print(f"data/raw: {n} berkas cocok dengan MANIFEST.csv")
+    if sampai_audit:
+        from reports.audit_sprint1 import jalankan
+        jalankan()
+        print("Selesai: ekstraksi, profil dan audit metadata Sprint 1")
+        return
     for nama, langkah in [("ekstraksi", lambda h: ekstraksi.jalankan()),
                           ("silver", lambda h: silver.jalankan(h["ekstraksi"])),
                           ("gold", lambda h: gold.jalankan(h["silver"])),
@@ -31,4 +37,6 @@ def main():
 hasil = {}
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--sampai", choices=["audit"], help="Jalankan #1–#6 dan audit #9")
+    main(sampai_audit=parser.parse_args().sampai == "audit")
