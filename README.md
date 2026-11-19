@@ -13,6 +13,45 @@ mendokumentasikannya.
 
 ## Mulai
 
+### Progres Kelompok 17 sampai audit Sprint 1
+
+Setelah dependensi terpasang dan data Kasus 17 diunduh, jalankan dari akar repo:
+
+```powershell
+python pipeline.py --sampai audit
+```
+
+Perintah ini menjalankan pembaca tim dan menghasilkan laporan untuk tiket #1–#6 dan audit #9. Acuan tim untuk tiket tersebut adalah folder `k17-air-sanitasi/sprint-1/`.
+
+- [Hitungan per berkas](reports/ekstraksi-per-berkas.csv) membedakan baris pada sumber dan baris yang dibaca setelah pemilihan seri kasus. Setiap tabel data dan metadata memuat `_berkas_raw` dan `_sha256_raw`.
+- [Profil enam seri BPS](reports/profil_statistik_bps.csv) dan [profil per provinsi](reports/profil_per_provinsi_bps.csv) memakai observasi JSON BPS. Satu format dipakai untuk profil agar versi CSV dari tabel yang sama tidak menggandakan hitungan. [Boxplot dan deret waktu](reports/gambar/) tersedia per seri dan rincian.
+- [Daftar IQR tim](reports/calon_anomali_bps.csv) membandingkan nilai sepanjang periode per seri dan rincian. [Profil sesuai acuan dosen](reports/calon-anomali.csv) memeriksa rincian total dari tiga arah dengan batas 1,5 IQR. Setiap sel memuat arah, batas, dan alasan penandaan. Perbandingan antarprovinsi dan perubahan antarperiode membutuhkan minimal delapan observasi. Perbandingan dalam satu provinsi membutuhkan minimal enam periode. Kolom `berulang` menandai semua kandidat pada pasangan seri dan provinsi yang melewati batas antarprovinsi pada sedikitnya dua periode dan minimal separuh periode yang tersedia.
+- [Ketersediaan pembanding](reports/ketersediaan-pembanding.csv) memuat satu baris per seri, periode bernilai dan rincian. Kolom kandidat menjelaskan kesesuaian konsep. Kolom irisan tahun memeriksa keberadaan tahun pada seri BPS yang dituju.
+- [Audit metadata](docs/data-dictionary.md) menghubungkan 11 seri ke judul, satuan dan kode SDG yang dipakai untuk kasus ini.
+
+### Keluaran ekstraksi
+
+`src.ekstraksi.jalankan()` membaca satu manifest dan mengembalikan kamus seperti acuan Sprint 1.
+Pilih tabel melalui kuncinya.
+
+| Sumber | Kunci hasil | Isi |
+|---|---|---|
+| BPS | `bps_json`, `bps_csv` | Observasi dalam format asal masing-masing |
+| BPS | `bps_meta`, `bps_manifest_asal` | Judul dan definisi per halaman JSON, serta katalog unduhan BPS |
+| WDI | `wdi_data`, `wdi_meta`, `wdi_sumber` | Observasi, metadata indikator, dan daftar sumber |
+| WHO | `who_csv` | Kamus dengan jalur relatif setiap CSV sebagai kunci dan tabel asli sebagai nilai |
+| WHO | `who_ddi`, `who_odata` | Definisi dan katalog indikator |
+| Semua | `_hitung` | Nama pembaca, peran, jumlah baris terbaca, dan catatan per berkas manifest |
+
+```python
+from src.ekstraksi import jalankan
+
+hasil = jalankan()
+observasi_bps = hasil["bps_json"]
+for jalur, tabel in hasil["who_csv"].items():
+    print(jalur, len(tabel))
+```
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
