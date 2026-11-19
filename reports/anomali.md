@@ -210,38 +210,38 @@ Nilai induk sebelum periode ini mencakup wilayah provinsi pemekaran; sesudahnya 
 | var1273 | Papua Selatan | 2025 | 47.92 | ke bawah + perubahan | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
 | var1273 | Papua Tengah | 2025 | 27.67 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
 | var1273 | Papua Pegunungan | 2025 | 5.01 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | Aceh | 2020 | 20.79 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | Bali | 2020 | 17.80 | ke bawah | outlier | tandai, nilai tidak diubah |
-| var2179 | Aceh | 2021 | 19.91 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | DKI Jakarta | 2021 | 15.99 | ke bawah + ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | DI Yogyakarta | 2021 | 16.27 | ke bawah | outlier | tandai, nilai tidak diubah |
-| var2179 | Kepulauan Riau | 2022 | 15.48 | ke samping | patahan_seri | tandai; cari catatan metode |
-| var2179 | Kalimantan Tengah | 2022 | 14.12 | perubahan | patahan_seri | tandai; cari catatan metode |
+| var2179 | DKI Jakarta | 2020 | 15.83 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
+| var2179 | Aceh | 2021 | 14.44 | ke bawah + perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Kepulauan Bangka Belitung | 2021 | 5.29 | ke samping | outlier | tandai, nilai tidak diubah |
+| var2179 | DKI Jakarta | 2021 | 15.99 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
+| var2179 | Bali | 2021 | 11.77 | ke samping | outlier | tandai, nilai tidak diubah |
+| var2179 | Kepulauan Riau | 2022 | 15.04 | ke samping | patahan_seri | tandai; cari catatan metode |
+| var2179 | Kalimantan Tengah | 2022 | 13.96 | perubahan | patahan_seri | tandai; cari catatan metode |
 | var2179 | Kalimantan Selatan | 2022 | 12.82 | perubahan | patahan_seri | tandai; cari catatan metode |
-| var2179 | Aceh | 2023 | 25.38 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | Kepulauan Riau | 2023 | 9.25 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | DKI Jakarta | 2023 | 23.10 | perubahan | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | Jawa Barat | 2023 | 9.63 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Jawa Tengah | 2023 | 10.69 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Kalimantan Tengah | 2023 | 11.23 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Kalimantan Selatan | 2023 | 8.71 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Sulawesi Tengah | 2023 | 8.26 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Gorontalo | 2023 | 4.19 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Sulawesi Barat | 2023 | 2.65 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Papua | 2023 | 2.44 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Aceh | 2024 | 24.59 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | DKI Jakarta | 2024 | 22.93 | ke bawah + ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | Sulawesi Selatan | 2024 | 11.11 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Maluku Utara | 2024 | 3.23 | perubahan + ke samping | outlier | tandai, nilai tidak diubah |
-| var2179 | Papua Barat | 2024 | 2.98 | perubahan | patahan_wilayah | tandai; jangan bandingkan induk sebelum dan sesudah pemekaran |
-| var2179 | Papua | 2024 | 4.60 | perubahan | patahan_wilayah | tandai; jangan bandingkan induk sebelum dan sesudah pemekaran |
-| var2179 | Aceh | 2025 | 24.17 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | DKI Jakarta | 2025 | 23.17 | ke bawah + ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
-| var2179 | Jawa Tengah | 2025 | 12.04 | ke samping | outlier | tandai, nilai tidak diubah |
-| var2179 | Bali | 2025 | 14.86 | perubahan | outlier | tandai, nilai tidak diubah |
-| var2179 | Kalimantan Barat | 2025 | 4.65 | ke samping | outlier | tandai, nilai tidak diubah |
-| var2179 | Sulawesi Utara | 2025 | 3.98 | ke samping | outlier | tandai, nilai tidak diubah |
-| var2179 | Sulawesi Tengah | 2025 | 5.30 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Sulawesi Selatan | 2022 | 12.92 | perubahan | patahan_seri | tandai; cari catatan metode |
+| var2179 | Kepulauan Bangka Belitung | 2023 | 6.12 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Kepulauan Riau | 2023 | 12.16 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | DKI Jakarta | 2023 | 23.10 | ke bawah + perubahan | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
+| var2179 | Jawa Tengah | 2023 | 10.83 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Kalimantan Tengah | 2023 | 11.16 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Kalimantan Selatan | 2023 | 8.70 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Gorontalo | 2023 | 4.14 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Sulawesi Barat | 2023 | 2.31 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Maluku | 2023 | 4.39 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Papua | 2023 | 1.82 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | DKI Jakarta | 2024 | 22.93 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
+| var2179 | Nusa Tenggara Barat | 2024 | 6.84 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Kalimantan Selatan | 2024 | 8.15 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Sulawesi Selatan | 2024 | 10.88 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Maluku Utara | 2024 | 2.76 | perubahan + ke samping | outlier | tandai, nilai tidak diubah |
+| var2179 | Papua Barat | 2024 | 2.55 | perubahan | patahan_wilayah | tandai; jangan bandingkan induk sebelum dan sesudah pemekaran |
+| var2179 | Papua | 2024 | 5.02 | perubahan | patahan_wilayah | tandai; jangan bandingkan induk sebelum dan sesudah pemekaran |
+| var2179 | Kepulauan Bangka Belitung | 2025 | 7.61 | ke samping | outlier | tandai, nilai tidak diubah |
+| var2179 | DKI Jakarta | 2025 | 23.17 | ke bawah | perbedaan_struktural | tandai sekali per provinsi; bukan kejadian satu tahun |
+| var2179 | Jawa Tengah | 2025 | 12.16 | ke samping | outlier | tandai, nilai tidak diubah |
+| var2179 | Bali | 2025 | 17.38 | perubahan | outlier | tandai, nilai tidak diubah |
+| var2179 | Kalimantan Barat | 2025 | 4.21 | ke samping | outlier | tandai, nilai tidak diubah |
+| var2179 | Sulawesi Utara | 2025 | 4.13 | perubahan + ke samping | outlier | tandai, nilai tidak diubah |
 | var2741 | Aceh | 2020 | 36.96 | ke samping | outlier | tandai, nilai tidak diubah |
 | var2741 | Riau | 2020 | 32.99 | ke samping | outlier | tandai, nilai tidak diubah |
 | var2741 | Bengkulu | 2020 | 37.36 | ke samping | outlier | tandai, nilai tidak diubah |
