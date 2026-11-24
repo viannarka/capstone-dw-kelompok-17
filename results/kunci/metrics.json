@@ -48,6 +48,9 @@
     "irisan_p4": 23,
     "irisan_p5": 0,
     "baris_sql": 3242,
+    "baris_gold_provinsi": 2893,
+    "baris_gold_panel_lebar": 1035,
+    "baris_silver_tidak_terpilih": 74,
     "aturan_validasi": 11,
     "aturan_lolos": 10,
     "aturan_peringatan": 1,
@@ -57,5 +60,5 @@
   },
   "seed": 0,
   "data_hash": "e9e740e4b0ac82b8ad7ff708aedaaa9240e523d99e681d98901d81511e9b55c6",
-  "perangkat": "Windows AMD64 Python 3.13.7"
+  "perangkat": "Darwin arm64 Python 3.13.7"
 }
