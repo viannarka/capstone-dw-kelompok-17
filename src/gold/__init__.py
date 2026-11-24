@@ -7,6 +7,6 @@ from src.gold import muat_sql, nasional, panel
 
 def jalankan(silver):
     hasil = nasional.jalankan(silver)
-    hasil["baris_sql"] = muat_sql.jalankan(silver)
+    hasil["baris_sql"] = muat_sql.jalankan(silver, hasil.get("nasional_gold"))
     hasil["panel"] = panel.bentuk_panel(silver)
     return hasil

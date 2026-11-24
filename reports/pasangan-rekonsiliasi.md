@@ -2,7 +2,9 @@
 
 Dihasilkan `python pipeline.py` (`src/gold/nasional.py`) dari Silver dan `src/konfigurasi.py`. Selisih dihitung di Sprint 2; Sprint 1 memastikan setiap pasangan memang sebanding dan mencatat tahun yang beririsan.
 
-Tabel nasional (periode x seri, rincian total, tampilan lebar): `reports/tabel-nasional.csv`. Kolom BPS hanya terisi pada tahun survei; itu bentuk datanya, tidak diisi.
+Tabel nasional Gold (satu baris per periode x seri, dengan kolom asal angka dan _berkas_raw): `data/gold/tabel_nasional.parquet` dan `data/gold/gold_nasional.parquet`.
+
+Tabel nasional lebar (periode x seri, rincian total): `reports/tabel-nasional.csv`. Kolom BPS hanya terisi pada tahun survei; itu bentuk datanya, tidak diisi.
 
 ## Ringkasan pasangan
 
