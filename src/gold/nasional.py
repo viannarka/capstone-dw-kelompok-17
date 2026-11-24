@@ -147,6 +147,34 @@ def irisan(silver, utama, rinci_utama, pembanding, semester=None):
     return sorted(set.intersection(a, *[per(s, r) for s, r in pembanding])) if pembanding else []
 
 
+def bentuk_rekonsiliasi(nasional):
+    """Satu baris per perbandingan dan periode yang tersedia pada salah satu sisi."""
+    bagian = []
+
+    def deret(seri, rincian):
+        mask = (nasional["seri_kode"] == seri) & (nasional["rincian"] == rincian)
+        return nasional.loc[mask].set_index("periode", verify_integrity=True)["nilai"]
+
+    for p in K.PASANGAN:
+        utama = deret(p["utama"], p["rincian_utama"]).rename("nilai_utama")
+        for kode, rincian in p["pembanding"] or [(None, None)]:
+            pembanding = deret(kode, rincian).rename("nilai_pembanding")
+            d = pd.concat([utama, pembanding], axis=1).sort_index()
+            d["id_perbandingan"] = f"{p['id']}/{kode}" if kode else p["id"]
+            d["pasangan"] = p["id"]
+            d["seri_utama"] = p["utama"]
+            d["seri_pembanding"] = kode
+            d["satuan"] = K.SERI[p["utama"]]["satuan"]
+            d["selisih_poin_persen"] = d["nilai_utama"] - d["nilai_pembanding"]
+            lengkap = d["selisih_poin_persen"].notna()
+            d["status"] = "tanpa pasangan" if kode else "konteks"
+            d.loc[lengkap, "status"] = "berpasangan"
+            d.loc[lengkap, "kategori"] = p["kategori"]
+            d["bukti"] = p["bukti"]
+            bagian.append(d.reset_index())
+    return pd.concat(bagian, ignore_index=True)
+
+
 def jalankan(silver):
     nas, lebar = tabel_nasional(silver)
     (ROOT / "reports").mkdir(exist_ok=True)
@@ -155,36 +183,27 @@ def jalankan(silver):
     # Bentuk tabel Gold Nasional
     df_gold_nas = bentuk_tabel_nasional_gold(silver)
 
-    nilai = df_gold_nas.set_index(["seri_kode", "periode"], verify_integrity=True)["nilai"]
-    perbandingan = []
     baris, bagian = [], []
     for p in K.PASANGAN:
         utama = p["utama"].split(",")[0].strip()
         rinci_utama = p.get("rincian_utama", "total")
         bersama = irisan(silver, utama, rinci_utama, p["pembanding"], p.get("semester_utama"))
-        if p["jenis"] == "selisih":
-            for periode in bersama:
-                for pembanding, _ in p["pembanding"]:
-                    a = nilai.at[(utama, periode)]
-                    b = nilai.at[(pembanding, periode)]
-                    perbandingan.append((p["id"], periode, utama, pembanding, a, b, a - b, p["kategori"]))
         baris.append({"id": p["id"], "seri_utama": p["utama"], "pembanding": ", ".join(f"{s} [{r}]" for s, r in p["pembanding"]) or "—",
                       "jenis": p["jenis"], "periode_beririsan": len(bersama), "tahun": ", ".join(bersama) or "—",
                       "dugaan_kategori": p["kategori"]})
         teks = [f"### {p['id']}: {p['judul']}", f"- Seri utama: `{p['utama']}` (rincian `{rinci_utama}`)",
                 "- Pembanding: " + (", ".join(f"`{s}` (rincian `{r}`)" for s, r in p["pembanding"]) or "tidak ada di paket"),
                 f"- Jenis: **{p['jenis']}**; tahun beririsan: {', '.join(bersama) or '—'}",
-                f"- Dugaan kategori selisih (diuji di Sprint 2): {p['kategori']}", "", "Pertanyaan keterbandingan dan jawabannya:", ""]
+                f"- Penjelasan: {p['kategori']}", "", "Pertanyaan keterbandingan dan jawabannya:", ""]
         teks += [f"{i}. **{q}** {a}" for i, (q, a) in enumerate(p["pertanyaan"], 1)]
+        teks.append(p["bukti"])
         bagian.append("\n".join(teks))
-    rekonsiliasi = pd.DataFrame(perbandingan, columns=[
-        "pasangan", "periode", "seri_utama", "seri_pembanding", "nilai_utama",
-        "nilai_pembanding", "selisih_poin_persen", "kategori",
-    ])
+    rekonsiliasi = bentuk_rekonsiliasi(df_gold_nas)
     rekonsiliasi.to_parquet(REKONSILIASI, index=False)
     daftar = pd.DataFrame(baris)
     n_selisih = int((daftar["jenis"] == "selisih").sum())
-    catat(pasangan_rekonsiliasi=n_selisih, pasangan_konteks=int((daftar["jenis"] != "selisih").sum()),
+    median = float(rekonsiliasi["selisih_poin_persen"].median())
+    catat(selisih_median=median, pasangan_rekonsiliasi=n_selisih, pasangan_konteks=int((daftar["jenis"] != "selisih").sum()),
           periode_beririsan=int(daftar.loc[daftar["jenis"] == "selisih", "periode_beririsan"].sum()),
           baris_gold_nasional=len(df_gold_nas),
           seri_gold_nasional=df_gold_nas["seri_kode"].nunique(),
@@ -197,6 +216,9 @@ def jalankan(silver):
         "`data/gold/tabel_nasional.parquet` dan `data/gold/gold_nasional.parquet`.",
         "Tabel nasional lebar (periode x seri, rincian total): `reports/tabel-nasional.csv`. "
         "Kolom BPS hanya terisi pada tahun survei; itu bentuk datanya, tidak diisi.",
+        f"Seluruh periode pada salah satu sisi dipertahankan. Dari {len(rekonsiliasi)} baris, "
+        f"{rekonsiliasi['selisih_poin_persen'].count()} memiliki kedua nilai. Median selisih bertanda "
+        f"adalah {median:.4f} poin persentase. Periode tanpa pasangan dan P5 memiliki selisih kosong.",
         "## Ringkasan pasangan", tabel_md(daftar),
         "## Rincian per pasangan", *bagian,
     ]))

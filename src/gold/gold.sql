@@ -51,15 +51,25 @@ CREATE TABLE gold_nasional (
 CREATE VIEW tabel_nasional AS SELECT * FROM gold_nasional;
 
 CREATE TABLE rekonsiliasi (
+    id_perbandingan VARCHAR NOT NULL,
     pasangan VARCHAR NOT NULL,
     periode VARCHAR NOT NULL,
-    seri_utama VARCHAR NOT NULL,
-    seri_pembanding VARCHAR NOT NULL,
-    nilai_utama DOUBLE NOT NULL,
-    nilai_pembanding DOUBLE NOT NULL,
-    selisih_poin_persen DOUBLE NOT NULL,
-    kategori VARCHAR NOT NULL,
-    PRIMARY KEY (pasangan, periode, seri_pembanding),
-    FOREIGN KEY (seri_utama, periode) REFERENCES gold_nasional (seri_kode, periode),
-    FOREIGN KEY (seri_pembanding, periode) REFERENCES gold_nasional (seri_kode, periode)
+    seri_utama VARCHAR NOT NULL REFERENCES seri (seri_kode),
+    seri_pembanding VARCHAR REFERENCES seri (seri_kode),
+    satuan VARCHAR NOT NULL,
+    nilai_utama DOUBLE,
+    nilai_pembanding DOUBLE,
+    selisih_poin_persen DOUBLE,
+    status VARCHAR NOT NULL,
+    kategori VARCHAR CHECK (kategori IN ('definisi berbeda', 'metode berbeda', 'vintage berbeda',
+                                         'cakupan berbeda', 'belum terjelaskan')),
+    bukti VARCHAR NOT NULL,
+    PRIMARY KEY (id_perbandingan, periode),
+    CHECK ((status = 'berpasangan' AND seri_pembanding IS NOT NULL AND nilai_utama IS NOT NULL
+            AND nilai_pembanding IS NOT NULL AND selisih_poin_persen IS NOT NULL AND kategori IS NOT NULL)
+        OR (status = 'tanpa pasangan' AND seri_pembanding IS NOT NULL
+            AND ((nilai_utama IS NULL) <> (nilai_pembanding IS NULL))
+            AND selisih_poin_persen IS NULL AND kategori IS NULL)
+        OR (status = 'konteks' AND seri_pembanding IS NULL AND nilai_utama IS NOT NULL
+            AND nilai_pembanding IS NULL AND selisih_poin_persen IS NULL AND kategori IS NULL))
 );

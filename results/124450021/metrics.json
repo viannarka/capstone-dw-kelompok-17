@@ -7,7 +7,8 @@
     "baris_sql_gold_provinsi": 2893,
     "baris_sql_panel_lebar": 1035,
     "baris_sql_gold_nasional": 183,
-    "baris_sql_rekonsiliasi": 51
+    "baris_sql_rekonsiliasi": 144,
+    "selisih_median": -0.021801995084601344
   },
   "seed": 0,
   "data_hash": "e9e740e4b0ac82b8ad7ff708aedaaa9240e523d99e681d98901d81511e9b55c6",
