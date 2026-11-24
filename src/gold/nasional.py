@@ -23,6 +23,7 @@ from src.laporan import ROOT, catat, tabel_md, tulis
 
 TABEL_NASIONAL_PARQUET = ROOT / "data" / "gold" / "tabel_nasional.parquet"
 GOLD_NASIONAL_PARQUET = ROOT / "data" / "gold" / "gold_nasional.parquet"
+REKONSILIASI = ROOT / "data" / "gold" / "rekonsiliasi.parquet"
 TABEL_NASIONAL_CSV = ROOT / "data" / "gold" / "tabel_nasional.csv"
 
 SERI_UTAMA = [
@@ -154,11 +155,19 @@ def jalankan(silver):
     # Bentuk tabel Gold Nasional
     df_gold_nas = bentuk_tabel_nasional_gold(silver)
 
+    nilai = df_gold_nas.set_index(["seri_kode", "periode"], verify_integrity=True)["nilai"]
+    perbandingan = []
     baris, bagian = [], []
     for p in K.PASANGAN:
         utama = p["utama"].split(",")[0].strip()
         rinci_utama = p.get("rincian_utama", "total")
         bersama = irisan(silver, utama, rinci_utama, p["pembanding"], p.get("semester_utama"))
+        if p["jenis"] == "selisih":
+            for periode in bersama:
+                for pembanding, _ in p["pembanding"]:
+                    a = nilai.at[(utama, periode)]
+                    b = nilai.at[(pembanding, periode)]
+                    perbandingan.append((p["id"], periode, utama, pembanding, a, b, a - b, p["kategori"]))
         baris.append({"id": p["id"], "seri_utama": p["utama"], "pembanding": ", ".join(f"{s} [{r}]" for s, r in p["pembanding"]) or "—",
                       "jenis": p["jenis"], "periode_beririsan": len(bersama), "tahun": ", ".join(bersama) or "—",
                       "dugaan_kategori": p["kategori"]})
@@ -168,6 +177,11 @@ def jalankan(silver):
                 f"- Dugaan kategori selisih (diuji di Sprint 2): {p['kategori']}", "", "Pertanyaan keterbandingan dan jawabannya:", ""]
         teks += [f"{i}. **{q}** {a}" for i, (q, a) in enumerate(p["pertanyaan"], 1)]
         bagian.append("\n".join(teks))
+    rekonsiliasi = pd.DataFrame(perbandingan, columns=[
+        "pasangan", "periode", "seri_utama", "seri_pembanding", "nilai_utama",
+        "nilai_pembanding", "selisih_poin_persen", "kategori",
+    ])
+    rekonsiliasi.to_parquet(REKONSILIASI, index=False)
     daftar = pd.DataFrame(baris)
     n_selisih = int((daftar["jenis"] == "selisih").sum())
     catat(pasangan_rekonsiliasi=n_selisih, pasangan_konteks=int((daftar["jenis"] != "selisih").sum()),
@@ -177,8 +191,8 @@ def jalankan(silver):
           **{f"irisan_{r.id.lower()}": r.periode_beririsan for r in daftar.itertuples()})
     tulis("pasangan-rekonsiliasi.md", "\n\n".join([
         "# Tabel nasional dan pasangan rekonsiliasi",
-        "Dihasilkan `python pipeline.py` (`src/gold/nasional.py`) dari Silver dan `src/konfigurasi.py`. Selisih dihitung "
-        "di Sprint 2; Sprint 1 memastikan setiap pasangan memang sebanding dan mencatat tahun yang beririsan.",
+        "Dihasilkan `python pipeline.py` (`src/gold/nasional.py`) dari Silver dan `src/konfigurasi.py`. Selisih per pembanding "
+        "tersimpan di `data/gold/rekonsiliasi.parquet` (nilai utama dikurangi pembanding, dalam poin persentase).",
         "Tabel nasional Gold (satu baris per periode x seri, dengan kolom asal angka dan _berkas_raw): "
         "`data/gold/tabel_nasional.parquet` dan `data/gold/gold_nasional.parquet`.",
         "Tabel nasional lebar (periode x seri, rincian total): `reports/tabel-nasional.csv`. "

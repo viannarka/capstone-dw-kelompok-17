@@ -23,6 +23,7 @@ from pathlib import Path
 import pandas as pd
 
 from src.laporan import ROOT, catat
+from src.silver import deret
 
 PANEL_GOLD_LEBAR = ROOT / "data" / "gold" / "panel_provinsi_tahunan.parquet"
 PANEL_GOLD_PANJANG = ROOT / "data" / "gold" / "gold_provinsi.parquet"
@@ -62,18 +63,21 @@ def seleksi_kanonik(silver):
     terpilih["konsep"] = terpilih["seri_kode"].map(KONSEP_KANONIK)
 
     # Tempelkan label penanda anomali/patahan dari Sprint 1
+    terpilih["deret"] = [deret.label(s, r) for s, r in zip(terpilih["seri_kode"], terpilih["rincian"])]
     anomali = muat_anomali()
     if not anomali.empty:
         terpilih = terpilih.merge(
-            anomali.rename(columns={"kategori": "flag_anomali"}),
-            on=["seri_kode", "wilayah_kode", "periode"],
+            anomali.rename(columns={"seri_kode": "deret", "kategori": "flag_anomali"}),
+            on=["deret", "wilayah_kode", "periode"], validate="many_to_one",
             how="left",
         )
         terpilih["flag_anomali"] = terpilih["flag_anomali"].fillna("normal")
     else:
         terpilih["flag_anomali"] = "normal"
 
-    return terpilih, tidak_terpilih
+    diprofilkan = {label for label, _, _ in deret.daftar()}
+    terpilih.loc[~terpilih["deret"].isin(diprofilkan), "flag_anomali"] = "tidak_diprofilkan"
+    return terpilih.drop(columns="deret"), tidak_terpilih
 
 
 def bentuk_panel(silver):
@@ -94,7 +98,7 @@ def bentuk_panel(silver):
 
     # 2. Panel lebar (tingkat total per konsep)
     df_total = terpilih[terpilih["rincian"] == "total"].copy()
-    df_lebar = df_total.pivot_table(
+    df_lebar = df_total.pivot(
         index=["wilayah_kode", "nama_wilayah", "periode"],
         columns="konsep",
         values="nilai"
