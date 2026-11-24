@@ -1,38 +1,47 @@
-"""Persiapan tahap 5 — memuat Silver ke DuckDB dengan kunci primer dan batasan.
-
-Basis data dibuat ulang setiap kali (berkas lama dihapus), jadi hasilnya selalu sama dengan
-data/silver/silver.parquet. Berkas .duckdb tidak di-commit; jalankan pipeline untuk membuatnya.
-"""
+"""Muat Parquet ke DuckDB dan publikasikan gudang setelah semua tabel terverifikasi."""
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import duckdb
-import pandas as pd
 
+from src.gold.nasional import GOLD_NASIONAL_PARQUET, REKONSILIASI
+from src.gold.panel import PANEL_GOLD_LEBAR, PANEL_GOLD_PANJANG
 from src.laporan import ROOT, catat
+from src.silver import SILVER
 
 DB = ROOT / "data" / "gold" / "gudang.duckdb"
-DDL = Path(__file__).with_name("silver.sql")
+PARQUET = {
+    "silver": SILVER,
+    "gold_provinsi": PANEL_GOLD_PANJANG,
+    "panel_provinsi_tahunan": PANEL_GOLD_LEBAR,
+    "gold_nasional": GOLD_NASIONAL_PARQUET,
+    "rekonsiliasi": REKONSILIASI,
+}
 
 
-def jalankan(silver, gold_nasional=None):
+def jalankan():
     DB.parent.mkdir(parents=True, exist_ok=True)
-    DB.unlink(missing_ok=True)
-    seri = pd.read_csv(ROOT / "docs" / "seri.csv")[["seri_kode", "sumber", "tingkat", "nama_baku", "satuan", "sdg_kode"]]
-    seri["sdg_kode"] = seri["sdg_kode"].astype(str)
-    s = silver.copy()
-    s["rujukan_tahun"] = s["rujukan_tahun"].astype("float64")
-    with duckdb.connect(str(DB)) as con:
-        con.execute(DDL.read_text(encoding="utf-8"))
-        con.register("seri_df", seri)
-        con.execute("INSERT INTO seri SELECT * FROM seri_df")
-        con.register("silver_df", s)
-        kolom = ", ".join(s.columns)
-        con.execute(f"INSERT INTO silver ({kolom}) SELECT {kolom} FROM silver_df")
-        if gold_nasional is not None:
-            con.register("gold_nasional_df", gold_nasional)
-            con.execute("CREATE TABLE IF NOT EXISTS gold_nasional AS SELECT * FROM gold_nasional_df")
-        n = con.execute("SELECT count(*) FROM silver").fetchone()[0]
-    if n != len(silver):
-        raise AssertionError(f"DuckDB memuat {n} baris, Silver {len(silver)} baris")
-    catat(baris_sql=n)
-    return n
+    jumlah = {}
+    with TemporaryDirectory(dir=DB.parent) as sementara:
+        baru = Path(sementara) / DB.name
+        with duckdb.connect(str(baru)) as con:
+            for nama in ("silver.sql", "gold.sql"):
+                con.execute(Path(__file__).with_name(nama).read_text(encoding="utf-8"))
+            con.execute(
+                "INSERT INTO seri SELECT seri_kode, sumber, tingkat, nama_baku, satuan, sdg_kode "
+                "FROM read_csv(?, header=true, all_varchar=true)",
+                [str(ROOT / "docs" / "seri.csv")],
+            )
+            for tabel, berkas in PARQUET.items():
+                con.execute(f"INSERT INTO {tabel} BY NAME SELECT * FROM read_parquet(?)", [str(berkas)])
+                sql, parquet = con.execute(
+                    f"SELECT (SELECT count(*) FROM {tabel}), (SELECT count(*) FROM read_parquet(?))",
+                    [str(berkas)],
+                ).fetchone()
+                if sql != parquet:
+                    raise ValueError(f"{tabel}: {sql} baris SQL, {parquet} baris Parquet")
+                jumlah[tabel] = sql
+        baru.replace(DB)
+    catat(baris_sql=jumlah["silver"])
+    print("           DuckDB (SQL = Parquet): " + ", ".join(f"{k}={v}" for k, v in jumlah.items()))
+    return jumlah["silver"]

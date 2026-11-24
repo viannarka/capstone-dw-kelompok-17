@@ -1,6 +1,6 @@
 # Tabel nasional dan pasangan rekonsiliasi
 
-Dihasilkan `python pipeline.py` (`src/gold/nasional.py`) dari Silver dan `src/konfigurasi.py`. Selisih dihitung di Sprint 2; Sprint 1 memastikan setiap pasangan memang sebanding dan mencatat tahun yang beririsan.
+Dihasilkan `python pipeline.py` (`src/gold/nasional.py`) dari Silver dan `src/konfigurasi.py`. Selisih per pembanding tersimpan di `data/gold/rekonsiliasi.parquet` (nilai utama dikurangi pembanding, dalam poin persentase).
 
 Tabel nasional Gold (satu baris per periode x seri, dengan kolom asal angka dan _berkas_raw): `data/gold/tabel_nasional.parquet` dan `data/gold/gold_nasional.parquet`.
 
