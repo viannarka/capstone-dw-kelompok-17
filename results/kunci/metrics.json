@@ -42,6 +42,8 @@
     "pasangan_rekonsiliasi": 4,
     "pasangan_konteks": 1,
     "periode_beririsan": 48,
+    "baris_gold_nasional": 183,
+    "seri_gold_nasional": 11,
     "irisan_p1": 3,
     "irisan_p2": 15,
     "irisan_p3": 7,
@@ -60,5 +62,5 @@
   },
   "seed": 0,
   "data_hash": "e9e740e4b0ac82b8ad7ff708aedaaa9240e523d99e681d98901d81511e9b55c6",
-  "perangkat": "Darwin arm64 Python 3.13.7"
+  "perangkat": "Windows AMD64 Python 3.13.7"
 }

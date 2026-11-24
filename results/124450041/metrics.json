@@ -4,7 +4,9 @@
     "berkas_dibaca": 22,
     "baris_mentah": 15390,
     "baris_terbaca": 6505,
-    "format": 2
+    "format": 2,
+    "baris_gold_nasional": 183,
+    "seri_gold_nasional": 11
   },
   "seed": 0,
   "data_hash": "e9e740e4b0ac82b8ad7ff708aedaaa9240e523d99e681d98901d81511e9b55c6",

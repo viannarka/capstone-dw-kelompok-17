@@ -1,14 +1,129 @@
 """Persiapan tahap 6 — tabel nasional semua seri dan daftar pasangan rekonsiliasi.
 
-Sprint 1 belum menghitung selisih. Yang disiapkan: tabel periode x seri (tampilan lebar) untuk baris
-Indonesia, dan untuk setiap pasangan dari panduan kelompok: rincian yang dipakai, tahun yang beririsan,
-pertanyaan keterbandingan, jawabannya beserta bukti, dan dugaan kategori selisih.
+Sprint 1: tabel periode x seri (tampilan lebar) untuk baris Indonesia dan daftar pasangan rekonsiliasi.
+Sprint 2: tabel Gold nasional dalam format panjang (satu baris per periode x seri), memuat 6 seri utama BPS
+(`var845`, `var2741`, `var847`, `var1273`, `var2179`, `var2749`) dan 5 seri pembanding (`WSH_WATER_SAFELY_MANAGED`,
+`WSH_HYGIENE_BASIC`, `SDGODAWS`, `SH.H2O.SMDW.ZS`, `SH.H2O.BASW.ZS`).
+
+Aturan Asal Angka Nasional:
+- Kolom 'asal' / 'asal_angka':
+  * 'baris Indonesia': Angka resmi nasional (wilayah_kode 9999) yang diterbitkan langsung oleh BPS dalam data mentah.
+    Keenam seri BPS menerbitkan baris 9999 untuk 100% tahun survei, sehingga agregasi sintetik dari tingkat provinsi
+    tidak diperlukan (menjaga integritas angka publikasi resmi BPS).
+  * 'pembanding': Angka nasional dari publikasi lembaga internasional (WHO GHO dan World Bank WDI).
+  * 'agregat': Untuk seri yang tidak menerbitkan baris nasional resmi (di Kasus 17 bernilai 0 karena seluruh seri BPS memiliki baris Indonesia).
+- Setiap baris tetap membawa `_berkas_raw` dan `_sha256_raw` untuk penelusuran lineage.
+- Tersimpan di `data/gold/tabel_nasional.parquet`, `data/gold/gold_nasional.parquet`, dan `data/gold/tabel_nasional.csv`.
 """
 import pandas as pd
 
 from src import konfigurasi as K
 from src import wilayah as W
 from src.laporan import ROOT, catat, tabel_md, tulis
+
+TABEL_NASIONAL_PARQUET = ROOT / "data" / "gold" / "tabel_nasional.parquet"
+GOLD_NASIONAL_PARQUET = ROOT / "data" / "gold" / "gold_nasional.parquet"
+TABEL_NASIONAL_CSV = ROOT / "data" / "gold" / "tabel_nasional.csv"
+
+SERI_UTAMA = [
+    "var845",   # Air Minum Layak (BPS)
+    "var2741",  # Air Minum Aman (BPS)
+    "var847",   # Sanitasi Layak (BPS)
+    "var1273",  # Cuci Tangan (BPS)
+    "var2179",  # Sanitasi Aman (BPS)
+    "var2749",  # Sanitasi Aman 2024-2025 (BPS)
+]
+
+SERI_PEMBANDING = [
+    "WSH_WATER_SAFELY_MANAGED",  # WHO GHO
+    "WSH_HYGIENE_BASIC",         # WHO GHO
+    "SDGODAWS",                  # WHO GHO
+    "SH.H2O.SMDW.ZS",            # WDI
+    "SH.H2O.BASW.ZS",            # WDI
+]
+
+KONSEP_NASIONAL = {
+    "var845": "air_layak",
+    "var2741": "air_aman",
+    "var847": "sanitasi_layak",
+    "var1273": "cuci_tangan",
+    "var2179": "sanitasi_aman",
+    "var2749": "sanitasi_aman",
+    "WSH_WATER_SAFELY_MANAGED": "air_aman",
+    "WSH_HYGIENE_BASIC": "cuci_tangan_basic",
+    "SDGODAWS": "bantuan_air_sanitasi",
+    "SH.H2O.SMDW.ZS": "air_aman",
+    "SH.H2O.BASW.ZS": "air_layak_basic",
+}
+
+
+def bentuk_tabel_nasional_gold(silver):
+    """Membentuk tabel Gold nasional satu baris per periode x seri.
+
+    Menyaring baris nasional (wilayah_kode 9999), rincian 'total', untuk keenam seri utama BPS
+    dan kelima seri pembanding WDI/WHO GHO.
+    """
+    semua_seri = SERI_UTAMA + SERI_PEMBANDING
+    mask = (
+        (silver["wilayah_kode"] == W.INDONESIA)
+        & (silver["seri_kode"].isin(semua_seri))
+        & (silver["rincian"] == "total")
+    )
+    df_nas = silver[mask].copy()
+
+    # Pastikan periode berupa string
+    df_nas["periode"] = df_nas["periode"].astype(str)
+
+    # Menentukan kolom asal angka nasional
+    def tentukan_asal(row):
+        seri = row["seri_kode"]
+        sumber = str(row.get("sumber", "")).lower()
+        if seri in SERI_UTAMA or sumber == "bps":
+            return "baris Indonesia"
+        elif seri in SERI_PEMBANDING or sumber in ["who_gho", "wdi"]:
+            return "pembanding"
+        else:
+            return "agregat"
+
+    df_nas["asal"] = df_nas.apply(tentukan_asal, axis=1)
+    df_nas["asal_angka"] = df_nas["asal"]
+
+    # Petakan konsep baku
+    df_nas["konsep"] = df_nas["seri_kode"].map(KONSEP_NASIONAL).fillna("lainnya")
+
+    # Kolom rapi dan terurut
+    kolom_urut = [
+        "seri_kode",
+        "konsep",
+        "wilayah_kode",
+        "nama_wilayah",
+        "periode",
+        "jenis_periode",
+        "rincian",
+        "nilai",
+        "satuan",
+        "sdg_kode",
+        "sumber",
+        "asal",
+        "asal_angka",
+        "_berkas_raw",
+        "_sha256_raw",
+    ]
+    for col in ["batas_bawah", "batas_atas", "rujukan_tahun"]:
+        if col in df_nas.columns and col not in kolom_urut:
+            kolom_urut.append(col)
+
+    df_nas = df_nas[[c for c in kolom_urut if c in df_nas.columns]]
+    df_nas = df_nas.sort_values(["seri_kode", "periode"]).reset_index(drop=True)
+
+    # Simpan ke data/gold/
+    TABEL_NASIONAL_PARQUET.parent.mkdir(parents=True, exist_ok=True)
+    df_nas.to_parquet(TABEL_NASIONAL_PARQUET, index=False)
+    df_nas.to_parquet(GOLD_NASIONAL_PARQUET, index=False)
+    df_nas.to_csv(TABEL_NASIONAL_CSV, index=False)
+
+    print(f"           Gold Nasional: {len(df_nas):,} baris (periode x seri) -> {TABEL_NASIONAL_PARQUET.relative_to(ROOT)}")
+    return df_nas
 
 
 def tabel_nasional(silver):
@@ -35,6 +150,10 @@ def jalankan(silver):
     nas, lebar = tabel_nasional(silver)
     (ROOT / "reports").mkdir(exist_ok=True)
     lebar.to_csv(ROOT / "reports" / "tabel-nasional.csv")
+
+    # Bentuk tabel Gold Nasional
+    df_gold_nas = bentuk_tabel_nasional_gold(silver)
+
     baris, bagian = [], []
     for p in K.PASANGAN:
         utama = p["utama"].split(",")[0].strip()
@@ -53,14 +172,19 @@ def jalankan(silver):
     n_selisih = int((daftar["jenis"] == "selisih").sum())
     catat(pasangan_rekonsiliasi=n_selisih, pasangan_konteks=int((daftar["jenis"] != "selisih").sum()),
           periode_beririsan=int(daftar.loc[daftar["jenis"] == "selisih", "periode_beririsan"].sum()),
+          baris_gold_nasional=len(df_gold_nas),
+          seri_gold_nasional=df_gold_nas["seri_kode"].nunique(),
           **{f"irisan_{r.id.lower()}": r.periode_beririsan for r in daftar.itertuples()})
     tulis("pasangan-rekonsiliasi.md", "\n\n".join([
         "# Tabel nasional dan pasangan rekonsiliasi",
         "Dihasilkan `python pipeline.py` (`src/gold/nasional.py`) dari Silver dan `src/konfigurasi.py`. Selisih dihitung "
         "di Sprint 2; Sprint 1 memastikan setiap pasangan memang sebanding dan mencatat tahun yang beririsan.",
-        "Tabel nasional (periode x seri, rincian total, tampilan lebar): `reports/tabel-nasional.csv`. "
+        "Tabel nasional Gold (satu baris per periode x seri, dengan kolom asal angka dan _berkas_raw): "
+        "`data/gold/tabel_nasional.parquet` dan `data/gold/gold_nasional.parquet`.",
+        "Tabel nasional lebar (periode x seri, rincian total): `reports/tabel-nasional.csv`. "
         "Kolom BPS hanya terisi pada tahun survei; itu bentuk datanya, tidak diisi.",
         "## Ringkasan pasangan", tabel_md(daftar),
         "## Rincian per pasangan", *bagian,
     ]))
-    return {"nasional": nas, "pasangan": daftar}
+    return {"nasional": nas, "nasional_gold": df_gold_nas, "pasangan": daftar}
+
