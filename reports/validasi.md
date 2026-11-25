@@ -1,4 +1,4 @@
-# Hasil validasi Silver
+# Hasil validasi Silver dan Gold
 
 Dihasilkan `python pipeline.py` (`src/validasi/`). Aturan keras menghentikan pipeline bila gagal; peringatan dilaporkan untuk diperiksa manusia. Aturan juga diuji dengan baris yang sengaja dirusak (`pytest`, berkas `tests/test_validasi.py`).
 
@@ -15,6 +15,10 @@ Dihasilkan `python pipeline.py` (`src/validasi/`). Aturan keras menghentikan pip
 | dua_tabel_sanitasi_aman_sama | keras (kasus) | var2749 = var2179 gabungan pada sel yang sama | LOLOS |
 | total_di_antara_kota_desa | keras (kasus) | sanitasi aman gabungan di antara perkotaan dan perdesaan | LOLOS |
 | kota_tidak_lebih_rendah | peringatan (kasus) | sanitasi aman perkotaan < perdesaan (peringatan) | PERINGATAN (4 baris) |
+| gold_kunci_panel_unik | keras (gold) | kunci panel Gold dan rekonsiliasi tidak kembar | LOLOS |
+| gold_satu_satuan_per_indikator | keras (gold) | satu indikator/konsep di Gold hanya punya satu satuan | LOLOS |
+| gold_sel_punya_pasangan_silver | keras (gold) | setiap sel Gold (provinsi dan nasional) punya pasangan di Silver | LOLOS |
+| rekonsiliasi_berpasangan_berkategori | keras (gold) | setiap baris rekonsiliasi berpasangan punya kategori sah | LOLOS |
 
 ## Kegagalan aturan umum
 
@@ -30,3 +34,7 @@ Tidak ada.
 | 7600 | 2024 | 2.54 | 1.79 | 2.39 |
 | 8100 | 2021 | 2.39 | 2.25 | 2.33 |
 | 8200 | 2023 | 1.67 | 1.53 | 1.63 |
+
+## Baris yang memicu aturan Gold dan rekonsiliasi
+
+Tidak ada.

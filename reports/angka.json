@@ -1,10 +1,11 @@
 {
+ "aturan_gold": 4,
  "aturan_khas": 3,
  "aturan_khas_peringatan": 1,
- "aturan_lolos": 10,
+ "aturan_lolos": 14,
  "aturan_peringatan": 1,
  "aturan_umum": 7,
- "aturan_validasi": 11,
+ "aturan_validasi": 15,
  "baris_batas_who": 0,
  "baris_bps": 3058,
  "baris_gold_nasional": 183,
