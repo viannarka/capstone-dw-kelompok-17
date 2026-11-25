@@ -54,14 +54,15 @@
     "baris_gold_panel_lebar": 1035,
     "baris_silver_tidak_terpilih": 74,
     "baris_sql": 3242,
-    "aturan_validasi": 11,
-    "aturan_lolos": 10,
+    "aturan_validasi": 15,
+    "aturan_lolos": 14,
     "aturan_peringatan": 1,
     "aturan_umum": 7,
     "aturan_khas": 3,
-    "aturan_khas_peringatan": 1
+    "aturan_khas_peringatan": 1,
+    "aturan_gold": 4
   },
   "seed": 0,
   "data_hash": "e9e740e4b0ac82b8ad7ff708aedaaa9240e523d99e681d98901d81511e9b55c6",
-  "perangkat": "Windows AMD64 Python 3.13.7"
+  "perangkat": "Windows AMD64 Python 3.13.17"
 }
