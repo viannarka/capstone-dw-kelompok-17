@@ -14,6 +14,26 @@ from src.validasi import aturan, gold as gold_aturan, khusus
 import pandas as pd
 
 
+def laporan_peringatan_sanitasi(temuan, gold):
+    panel = gold.get("panel", {}).get("gold_panjang") if isinstance(gold, dict) else None
+    if panel is None:
+        return "Penelusuran tertunda karena panel Gold panjang belum tersedia."
+    kunci = ["wilayah_kode", "periode"]
+    rincian = ["daerah=URBAN", "daerah=RURAL", "total"]
+    asal = temuan.melt(id_vars=kunci, value_vars=rincian, var_name="rincian", value_name="Silver (%)")
+    sel = panel.loc[panel["seri_kode"].eq("var2179"), kunci + ["rincian", "nilai"]]
+    cek = asal.merge(sel.rename(columns={"nilai": "Gold (%)"}), on=kunci + ["rincian"], how="left")
+    cocok = cek["Silver (%)"].eq(cek["Gold (%)"]) & ~cek.duplicated(kunci + ["rincian"], keep=False)
+    cek["hasil penelusuran"] = cocok.map({True: "Cocok", False: "Periksa kembali"})
+    keputusan = (
+        "Nilai dipertahankan sesuai K-023. Semua rincian cocok dengan Silver. Persentase perkotaan "
+        "yang lebih rendah daripada perdesaan merupakan alasan untuk meninjau data dan belum membuktikan galat."
+        if cocok.all() else
+        "Periksa kembali sel yang berbeda, hilang, atau berulang terhadap Silver dan berkas sumber sebelum menerima nilainya."
+    )
+    return "Penelusuran var2179 pada panel Gold provinsi:\n\n" + tabel_md(cek) + "\n\n" + keputusan
+
+
 def jalankan(silver, gold):
     gagal_umum = pd.DataFrame()
     try:
@@ -29,6 +49,8 @@ def jalankan(silver, gold):
                       "hasil": "LOLOS" if buruk.empty else ("GAGAL" if keras else f"PERINGATAN ({len(buruk)} baris)")})
         if not buruk.empty:
             rinci_khusus.append(f"### {nama}\n\n" + tabel_md(buruk.head(30)))
+            if nama == "kota_tidak_lebih_rendah":
+                rinci_khusus.append(laporan_peringatan_sanitasi(buruk, gold))
     rinci_gold = []
     for nama, ket, keras, fungsi in gold_aturan.ATURAN:
         buruk = fungsi(silver, gold)

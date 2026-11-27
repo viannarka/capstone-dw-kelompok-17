@@ -35,6 +35,25 @@ Tidak ada.
 | 8100 | 2021 | 2.39 | 2.25 | 2.33 |
 | 8200 | 2023 | 1.67 | 1.53 | 1.63 |
 
+Penelusuran var2179 pada panel Gold provinsi:
+
+| wilayah_kode | periode | rincian | Silver (%) | Gold (%) | hasil penelusuran |
+|---|---|---|---|---|---|
+| 2100 | 2022 | daerah=URBAN | 14.87 | 14.87 | Cocok |
+| 7600 | 2024 | daerah=URBAN | 1.79 | 1.79 | Cocok |
+| 8100 | 2021 | daerah=URBAN | 2.25 | 2.25 | Cocok |
+| 8200 | 2023 | daerah=URBAN | 1.53 | 1.53 | Cocok |
+| 2100 | 2022 | daerah=RURAL | 16.52 | 16.52 | Cocok |
+| 7600 | 2024 | daerah=RURAL | 2.54 | 2.54 | Cocok |
+| 8100 | 2021 | daerah=RURAL | 2.39 | 2.39 | Cocok |
+| 8200 | 2023 | daerah=RURAL | 1.67 | 1.67 | Cocok |
+| 2100 | 2022 | total | 15.04 | 15.04 | Cocok |
+| 7600 | 2024 | total | 2.39 | 2.39 | Cocok |
+| 8100 | 2021 | total | 2.33 | 2.33 | Cocok |
+| 8200 | 2023 | total | 1.63 | 1.63 | Cocok |
+
+Nilai dipertahankan sesuai K-023. Semua rincian cocok dengan Silver. Persentase perkotaan yang lebih rendah daripada perdesaan merupakan alasan untuk meninjau data dan belum membuktikan galat.
+
 ## Baris yang memicu aturan Gold dan rekonsiliasi
 
 Tidak ada.
